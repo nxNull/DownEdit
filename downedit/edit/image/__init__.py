@@ -10,6 +10,19 @@ from ._operation import (
     Blur
 )
 
+
+OPERATIONS = {
+    "flip"      : Flip,
+    "crop"      : Crop,
+    "enhance"   : Enhance,
+    "rotate"    : Rotate,
+    "resize"    : Resize,
+    "grayscale" : GrayScale,
+    "sharpen"   : Sharpen,
+    "blur"      : Blur
+}
+
+
 class OperationFactory:
     @staticmethod
     def create(operation_name: str, **kwargs) -> ImageOperation:
@@ -30,17 +43,7 @@ class OperationFactory:
         Returns:
             ImageOperation: An image operation object.
         """
-        operations = {
-            "flip"      : Flip,
-            "crop"      : Crop,
-            "enhance"   : Enhance,
-            "rotate"    : Rotate,
-            "resize"    : Resize,
-            "grayscale" : GrayScale,
-            "sharpen"   : Sharpen,
-            "blur"      : Blur
-        }
-        operation_class = operations.get(operation_name.lower())
+        operation_class = OPERATIONS.get(operation_name.lower())
         if operation_class is None:
             raise ValueError(f"Invalid operation name: {operation_name}")
         return operation_class(**kwargs)

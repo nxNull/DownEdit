@@ -3,7 +3,7 @@ import time
 
 from colorama import Fore
 
-from .. import get_banner
+from downedit.cli.menu._banners import get_banner
 from downedit.edit import VideoProcess
 from downedit.utils import (
     log,

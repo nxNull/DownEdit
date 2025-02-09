@@ -1,8 +1,7 @@
 from colorama import Fore
 
-from downedit.site import Youtube
-from .. import get_banner
-
+from downedit.cli.menu._banners import get_banner
+from downedit.platforms import Youtube
 from downedit.utils import (
     log,
     selector

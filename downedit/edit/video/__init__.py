@@ -7,6 +7,16 @@ from ._operation import (
     AdjustColor
 )
 
+
+OPERATIONS = {
+    "flip"        : Flip,
+    "speed"       : Speed,
+    "add_music"   : AddMusic,
+    "loop"        : Loop,
+    "adjust_color": AdjustColor,
+}
+
+
 class OperationFactory:
     @staticmethod
     def create(operation_name: str, **kwargs) -> VideoOperation:
@@ -24,14 +34,7 @@ class OperationFactory:
         Returns:
             VideoOperation: A video operation object.
         """
-        operations = {
-            "flip"        : Flip,
-            "speed"       : Speed,
-            "add_music"   : AddMusic,
-            "loop"        : Loop,
-            "adjust_color": AdjustColor,
-        }
-        operation_class = operations.get(operation_name.lower())
+        operation_class = OPERATIONS.get(operation_name.lower())
         if operation_class is None:
             raise ValueError(f"Invalid operation name: {operation_name}")
         return operation_class(**kwargs)

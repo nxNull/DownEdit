@@ -2,7 +2,7 @@ import time
 
 from colorama import Fore
 
-from .. import get_banner
+from downedit.cli.menu._banners import get_banner
 from downedit.edit.ai.cloud.image import AIImgGenProcess
 from downedit.utils import (
     log,
@@ -26,6 +26,7 @@ def cloud_ai_generator():
     image_amounts = input(
         f"{Fore.YELLOW}Enter amount of images (Max: 99):{Fore.WHITE} "
     )
+
     with AIImgGenProcess(
         context={
             "prompt": user_prompt,

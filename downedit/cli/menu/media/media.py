@@ -1,8 +1,8 @@
 import time
 from colorama import Fore
 
-from .. import get_banner
-from downedit.site import (
+from downedit.cli.menu._banners import get_banner
+from downedit.platforms import (
     Douyin,
     Tiktok
 )
@@ -21,7 +21,7 @@ def display_menu():
     )
     # TODO: Media Video Downloader Algorithm
     menu_list = {
-        f" Tiktok  {Fore.RED}(Rework)": Tiktok.main,
+        f" Tiktok  {Fore.RED}(Rework)": lambda: None,
         f" Douyin {Fore.RED}(Rework)": lambda: None,
         # f" Kuaishou {Fore.RED}(Rework)": lambda: None,
         f" Kuaishou": kuaishou_main,

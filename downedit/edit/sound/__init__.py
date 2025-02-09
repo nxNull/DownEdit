@@ -5,6 +5,14 @@ from ._operation import (
     FadeOut
 )
 
+
+OPERATIONS = {
+    "volume"     : Volume,
+    "fade in"    : FadeIn,
+    "fade out"   : FadeOut
+}
+
+
 class OperationFactory:
     @staticmethod
     def create(operation_name: str, **kwargs) -> SoundOperation:
@@ -20,12 +28,7 @@ class OperationFactory:
         Returns:
             SoundOperation: A sound operation object.
         """
-        operations = {
-            "volume"     : Volume,
-            "fade in"    : FadeIn,
-            "fade out"   : FadeOut
-        }
-        operation_class = operations.get(operation_name.lower())
+        operation_class = OPERATIONS.get(operation_name.lower())
         if operation_class is None:
             raise ValueError(f"Invalid operation name: {operation_name}")
         return operation_class(**kwargs)
