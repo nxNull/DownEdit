@@ -1,4 +1,4 @@
-"""
+r"""
 DownEdit
 
 This module provides tools for downloading, editing, and generating videos, images, and sounds in bulk using AI.
@@ -26,7 +26,7 @@ from downedit.edit import (
     AIImgEditProcess
 )
 
-from downedit.site import (
+from downedit.platforms import (
     Domain,
     Douyin,
     KuaiShou,
@@ -35,8 +35,10 @@ from downedit.site import (
 )
 
 from downedit.service import (
-    retry,
-    httpx_capture,
+    retry_sync,
+    httpx_capture_sync,
+    retry_async,
+    httpx_capture_async,
     Client,
     ClientHints,
     Headers,
@@ -69,8 +71,10 @@ __all__ = [
     "AIImgEditProcess",
     "AIImgGenProcess",
 
-    "retry",
-    "httpx_capture",
+    "retry_sync",
+    "httpx_capture_sync",
+    "retry_async",
+    "httpx_capture_async",
     "Client",
     "ClientHints",
     "Headers",
