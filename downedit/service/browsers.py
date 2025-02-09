@@ -54,6 +54,7 @@ class Chrome():
             '129.0.6668': {'minor_range': (0, 255), 'webkit': '537.36'},
             '130.0.6723': {'minor_range': (0, 255), 'webkit': '537.36'},
             '131.0.6778': {'minor_range': (0, 255), 'webkit': '537.36'},
+            '132.0.6834': {'minor_range': (0, 255), 'webkit': '537.36'},
         }
 
 class Firefox():
@@ -228,12 +229,12 @@ class Browser():
         Args:
             browser (str): The name of the browser to use. Defaults to "chrome".
         """
-        browser_classes = {
-            "chrome": Chrome(),
-            "firefox": Firefox(),
-            "edge": Edge(),
-            "safari": Safari()
-        }
+        browser_classes = {}
+        browser_classes["chrome"] = Chrome()
+        browser_classes["firefox"] = Firefox()
+        browser_classes["edge"] = Edge()
+        browser_classes["safari"] = Safari()
+
         return browser_classes.get(self.browser_name, Chrome())
 
     def get_user_agents(self):

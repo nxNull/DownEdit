@@ -1,10 +1,11 @@
 import random
 from typing import Tuple, Union
 
-from ..utils import Singleton
+from downedit.utils import Singleton
 from .browsers import Browser
 from .platforms import Platform
 from .serialization import format_mm_version
+
 
 class UserAgent():
     """

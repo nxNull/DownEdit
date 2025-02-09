@@ -22,6 +22,7 @@ class UserInput(ABC):
     def select_input(self, tool_selector, banner, message):
         pass
 
+
 class SingleInput(UserInput):
     def get_user_input(self, message):
         return input(message)
@@ -33,6 +34,7 @@ class SingleInput(UserInput):
             log.critical("Please Enter Username!")
             return
         return user_input
+
 
 class BatchInput(UserInput):
     def get_user_input(self, message):

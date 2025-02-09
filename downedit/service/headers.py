@@ -1,8 +1,10 @@
 from .user_agents import UserAgent
 from .client_hints import ClientHints
-from ..utils import Singleton
+from downedit.utils import Singleton
 
-class Headers(metaclass=Singleton):
+
+
+class Headers():
     """
     The Headers class.
 

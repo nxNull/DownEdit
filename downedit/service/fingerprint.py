@@ -1,3 +1,4 @@
+import ssl
 import json
 import random
 import hashlib
@@ -6,7 +7,7 @@ __all__ = ["Fingerprint"]
 
 class Fingerprint:
     """
-    A utility class for generating browser fingerprints.
+    A utility class for generating client fingerprints.
     """
 
     RESOLUTIONS = [
@@ -74,7 +75,17 @@ class Fingerprint:
             return "portrait-primary"
 
     @classmethod
-    def browser_fingerprint(cls, browser_type: str = "Chrome", user_agent: str  = None) -> dict:
+    def browser(cls, browser_type: str = "Chrome", user_agent: str  = None) -> dict:
+        """
+        Generate a browser fingerprint.
+
+        Args:
+            browser_type (str, optional): the browser type. Defaults to "Chrome".
+            user_agent (str, optional): user agent string. Defaults to None.
+
+        Returns:
+            dict: the browser fingerprint.
+        """
         platform = {}
         platform["Chrome"] = "Win32"
         platform["Edge"] = "Win32"
@@ -122,6 +133,83 @@ class Fingerprint:
         fingerprint["outerHeight"] = outer_height
         return fingerprint
 
+    @staticmethod
+    def tls_context(browser_type: str = "Chrome") -> ssl.SSLContext:
+        """
+        Create SSLContext configured for specific browser fingerprints.
+
+        Args:
+            browser_type (str): Browser to mimic (Chrome/Firefox)
+
+        Returns:
+            ssl.SSLContext: Configured TLS context
+        """
+        context_configurations = {
+            "chrome": {
+                "ecdh_curves": ['X25519', 'prime256v1', 'secp384r1'],
+                "ciphers": [
+                    'TLS_AES_128_GCM_SHA256',
+                    'TLS_AES_256_GCM_SHA384',
+                    'TLS_CHACHA20_POLY1305_SHA256',
+                    'ECDHE-ECDSA-AES128-GCM-SHA256',
+                    'ECDHE-RSA-AES128-GCM-SHA256',
+                    'ECDHE-ECDSA-AES256-GCM-SHA384',
+                    'ECDHE-RSA-AES256-GCM-SHA384',
+                    'ECDHE-ECDSA-CHACHA20-POLY1305',
+                    'ECDHE-RSA-CHACHA20-POLY1305',
+                ],
+                "options": [
+                    ssl.OP_NO_COMPRESSION,
+                    ssl.OP_NO_SSLv2,
+                    ssl.OP_NO_SSLv3,
+                    ssl.OP_NO_TLSv1,
+                    ssl.OP_NO_TLSv1_1
+                ]
+            },
+            "firefox": {
+                "ecdh_curves": ['secp384r1', 'prime256v1', 'X25519'],
+                "ciphers": [
+                    'TLS_AES_128_GCM_SHA256',
+                    'TLS_CHACHA20_POLY1305_SHA256',
+                    'TLS_AES_256_GCM_SHA384',
+                    'ECDHE-ECDSA-AES128-GCM-SHA256',
+                    'ECDHE-RSA-AES128-GCM-SHA256',
+                    'ECDHE-ECDSA-AES256-GCM-SHA384',
+                    'ECDHE-RSA-AES256-GCM-SHA384',
+                    'ECDHE-ECDSA-CHACHA20-POLY1305',
+                    'ECDHE-RSA-CHACHA20-POLY1305',
+                ],
+                "options": [
+                    ssl.OP_NO_COMPRESSION,
+                    ssl.OP_CIPHER_SERVER_PREFERENCE,
+                    ssl.OP_NO_SSLv2,
+                    ssl.OP_NO_SSLv3,
+                    ssl.OP_NO_TLSv1,
+                    ssl.OP_NO_TLSv1_1
+                ]
+            }
+        }
+
+        browser_type = browser_type.lower()
+        if browser_type not in context_configurations:
+            raise ValueError(
+                f"""
+                Unsupported browser type: {browser_type}.\n
+                Supported: {list(context_configurations.keys())}
+                """
+            )
+
+        config = context_configurations[browser_type]
+        context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+        context.minimum_version = ssl.TLSVersion.TLSv1_2
+        context.maximum_version = ssl.TLSVersion.TLSv1_3
+
+        context.set_ciphers(':'.join(config['ciphers']))
+        context.set_ecdh_curve(random.choice(config['ecdh_curves']))
+        return context
+
 if __name__ == "__main__":
-    fingerprint = Fingerprint.browser_fingerprint()
+    fingerprint = Fingerprint.browser()
     print(json.dumps(fingerprint, indent=4))
+    tls_context = Fingerprint.tls_context()
+    print(json.dumps(tls_context.get_ciphers(), indent=4))

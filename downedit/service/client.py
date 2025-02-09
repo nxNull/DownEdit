@@ -1,4 +1,5 @@
 import asyncio
+import ssl
 import httpx
 
 from .proxy import Proxy
@@ -15,20 +16,22 @@ class Client:
         max_connections: int = 10,
         timeout: int = 10,
         max_tasks: int = 10,
-        headers: Headers = {}
+        headers: Headers = {},
+        ssl: ssl.SSLContext | str | bool = False
     ):
-        self.proxies = proxies.to_httpx_format() if proxies else {}
-        self.headers = headers if headers else {}
-        self.max_tasks = max_tasks
-        self.semaphore = asyncio.Semaphore(max_tasks)
+        self.proxies         = proxies.to_httpx_format() if proxies else {}
+        self.headers         = headers if headers else {}
+        self.max_tasks       = max_tasks
+        self.semaphore       = asyncio.Semaphore(max_tasks)
         self.max_connections = max_connections
-        self.timeout = timeout
-        self.max_retries = max_retries
-        self.limits = httpx.Limits(max_connections=self.max_connections)
-        self.timeout_config = httpx.Timeout(self.timeout)
+        self.timeout         = timeout
+        self.max_retries     = max_retries
+        self.limits          = httpx.Limits(max_connections=self.max_connections)
+        self.timeout_config  = httpx.Timeout(self.timeout)
+        self.ssl             = ssl
 
         self._aclient = None
-        self._client = None
+        self._client  = None
 
     @property
     def aclient(self):
@@ -41,7 +44,7 @@ class Client:
         if self._aclient is None:
             self._aclient = httpx.AsyncClient(
                 headers=self.headers,
-                verify=False,
+                verify=self.ssl,
                 timeout=self.timeout_config,
                 limits=self.limits,
                 # http2=True,
@@ -60,7 +63,7 @@ class Client:
             self._client = httpx.Client(
                 headers=self.headers,
                 proxies=self.proxies,
-                verify=False,
+                verify=self.ssl,
                 timeout=self.timeout_config,
                 limits=self.limits,
             )
