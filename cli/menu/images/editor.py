@@ -2,8 +2,8 @@ import time
 
 from colorama import Fore
 
-from downedit.cli.menu._banners import get_banner
-from downedit.edit import ImageProcess
+from cli.menu._banners import get_banner
+from downedit import Image
 from downedit.utils import (
     log,
     selector,
@@ -14,7 +14,7 @@ from downedit.utils import (
 def main():
     banner_display, banner_msg = get_banner("IMAGE_EDITOR")
     selector.display_banner(banner_display, banner_msg, "- Photo editor")
-    available_tools = ImageProcess.get_tools()
+    available_tools = Image.get_tools()
 
     user_folder = ResourceUtil.validate_folder(
         folder_path=input(f"{Fore.YELLOW}Enter folder:{Fore.WHITE} ")
@@ -31,7 +31,7 @@ def main():
         f"{Fore.YELLOW}Batch Size (Max: 10):{Fore.WHITE} "
     )
 
-    with ImageProcess(
+    with Image(
         tool=selected_tool,
         process_folder=user_folder,
         batch_size= min(int(selected_batch) if selected_batch.isdigit() else 1, 10),

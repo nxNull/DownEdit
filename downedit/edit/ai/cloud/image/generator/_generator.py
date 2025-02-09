@@ -9,6 +9,14 @@ from downedit.service import (
 
 
 class GenerativeImageAI:
+    """
+    The generative image AI class.
+
+    Args:
+        provider (Handler): The provider for the AI image generator.
+        context (str): The context for the AI image generator.
+    """
+
     def __init__(self, provider, context: str):
         self.user_context = context
         self.ai_context = AIContext()

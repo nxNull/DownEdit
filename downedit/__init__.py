@@ -20,10 +20,10 @@ from downedit.__config__ import (
 )
 
 from downedit.edit import (
-    VideoProcess,
-    SoundProcess,
-    ImageProcess,
-    AIImgEditProcess
+    VideoProcess as Video,
+    SoundProcess as Sound,
+    ImageProcess as Image,
+    AIImgEditProcess as AIEditImg,
 )
 
 from downedit.platforms import (
@@ -47,7 +47,7 @@ from downedit.service import (
     Fingerprint
 )
 
-from downedit.edit.ai.cloud import AIImgGenProcess
+from downedit.edit.ai.cloud import AIImgGenProcess as AIGenImgCloud
 from downedit.download import Downloader
 
 __author__          = "sokunheng"
@@ -65,11 +65,11 @@ __all__ = [
     "Extensions",
     "AIContext",
 
-    "VideoProcess",
-    "SoundProcess",
-    "ImageProcess",
-    "AIImgEditProcess",
-    "AIImgGenProcess",
+    "Video",
+    "Sound",
+    "Image",
+    "AIEditImg",
+    "AIGenImgCloud",
 
     "retry_sync",
     "httpx_capture_sync",

@@ -3,8 +3,8 @@ import time
 
 from colorama import Fore
 
-from downedit.cli.menu._banners import get_banner
-from downedit.edit import VideoProcess
+from cli.menu._banners import get_banner
+from downedit import Video
 from downedit.utils import (
     log,
     selector,
@@ -16,7 +16,7 @@ def main():
     max_cpu_cores = multiprocessing.cpu_count()
     banner_display, banner_msg = get_banner("VIDEO_EDITOR")
     selector.display_banner(banner_display, banner_msg, "- Video editor")
-    available_tools = VideoProcess.get_tools()
+    available_tools = Video.get_tools()
     video_presets = {
         " Ultrafast": "ultrafast",
         " Superfast": "superfast",
@@ -54,7 +54,7 @@ def main():
     selected_batch = input(
         f"{Fore.YELLOW}Batch Size (Max: 10):{Fore.WHITE} "
     )
-    with VideoProcess(
+    with Video(
         tool=selected_tool,
         process_folder=user_folder,
         batch_size= min(int(selected_batch) if selected_batch.isdigit() else 1, 10),

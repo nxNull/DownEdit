@@ -1,6 +1,6 @@
 from colorama import Fore
 
-from ... import DE_VERSION
+from downedit import DE_VERSION
 
 _BANNERS: dict[
     str,

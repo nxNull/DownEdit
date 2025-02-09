@@ -1,7 +1,7 @@
 import time
 from colorama import Fore
 
-from downedit.cli.menu._banners import get_banner
+from cli.menu._banners import get_banner
 from downedit.platforms import (
     Douyin,
     Tiktok

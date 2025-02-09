@@ -16,6 +16,16 @@ from downedit.utils import (
 )
 
 class AIImgGenProcess:
+    """
+    The AI image generator process class.
+
+    Args:
+        context (dict): The context for the AI image generator.
+        amount (int): The amount of media files to process.
+        batch_size (int): The batch size for processing media files.
+        **kwargs: Additional keyword arguments.
+    """
+
     def __init__(
         self,
         context: dict,
