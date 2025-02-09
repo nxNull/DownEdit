@@ -3,7 +3,7 @@ import time
 import traceback
 
 from downedit.edit.ai.cloud.image.generator._task import AIImgGenTask
-from downedit.edit.ai.cloud.image.generator._generator import AIImgGenerator
+from downedit.edit.ai.cloud.image.generator._generator import GenerativeImageAI
 from downedit.edit.ai.cloud.image.generator import (
     OperationFactory,
     AIImgGenOperation
@@ -100,11 +100,11 @@ class AIImgGenProcess:
             log.error("Unable to generate image.")
             return False
 
-    def _create_ai(self, _provider: AIImgGenOperation, _context: dict) -> AIImgGenerator:
+    def _create_ai(self, _provider: AIImgGenOperation, _context: dict) -> GenerativeImageAI:
         """
         Creates an ImageEditor object.
         """
-        return AIImgGenerator(_provider, _context)
+        return GenerativeImageAI(_provider, _context)
 
     async def start_async(self, **ai_kwargs):
         """

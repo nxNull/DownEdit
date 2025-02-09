@@ -1,4 +1,4 @@
-from downedit.site    import DE_AI_GENERATOR
+from downedit.platforms    import GenImageAI
 from downedit         import AIContext
 from downedit.service import (
     Client,
@@ -8,7 +8,7 @@ from downedit.service import (
 )
 
 
-class AIImgGenerator:
+class GenerativeImageAI:
     def __init__(self, provider, context: str):
         self.user_context = context
         self.ai_context = AIContext()
@@ -42,4 +42,4 @@ class AIImgGenerator:
         self.ai_context.reset(prov_arg)
 
         async with Client(headers=self.headers.get()) as client:
-            return await DE_AI_GENERATOR(client, self.ai_context).generate()
+            return await GenImageAI(client, self.ai_context).generate()

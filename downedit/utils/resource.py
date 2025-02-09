@@ -234,3 +234,26 @@ class ResourceUtil:
             counter += 1
 
         return str(dir_path)
+
+    @staticmethod
+    def read_or_create_file(
+        filename: Union[str, Path],
+        content: str = ""
+    ) -> str:
+        """
+        Reads a .txt or .env file, and if it doesn't exist, creates a new one with the specified content.
+
+        Args:
+            filename (str | Path): The name of the file to read or create.
+            content (str): The content to write to the file if it doesn't exist.
+
+        Returns:
+            str: The content of the file.
+        """
+        file_path = Path(filename).resolve()
+        if not file_path.exists():
+            with open(file_path, 'w') as file:
+                file.write(content)
+
+        with open(file_path, 'r') as file:
+            return file.read()

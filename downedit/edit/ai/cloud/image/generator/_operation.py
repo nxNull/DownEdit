@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 
 from downedit.edit.base import Operation
-from ._generator import AIImgGenerator
+from ._generator import GenerativeImageAI
 
 
 class AIImgGenOperation(Operation, ABC):
@@ -10,15 +10,15 @@ class AIImgGenOperation(Operation, ABC):
     Abstract class for ai image operations.
     """
     @abstractmethod
-    async def _run(self, gen: AIImgGenerator):
+    async def _run(self, gen: GenerativeImageAI):
         pass
 
-    async def handle(self, gen: AIImgGenerator, output_suffix: str) -> str:
+    async def handle(self, gen: GenerativeImageAI, output_suffix: str) -> str:
         """
         Handles the operation and updates the output suffix.
 
         Args:
-            gen (AIImgGenerator): The image generator instance.
+            gen (GenerativeImageAI): The image generator instance.
             output_suffix (str): The current output suffix.
 
         Returns:
@@ -41,7 +41,7 @@ class AIImgGenAPI(AIImgGenOperation):
             suffix="_ai_gen"
         )
 
-    async def _run(self, gen: AIImgGenerator):
+    async def _run(self, gen: GenerativeImageAI):
         fileInfo = await gen.generate()
         fileData = fileInfo.get("data")
         fileId = fileData.get("fileId")
