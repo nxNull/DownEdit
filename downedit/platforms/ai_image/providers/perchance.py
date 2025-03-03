@@ -3,9 +3,13 @@ import httpx
 from random import uniform
 
 from downedit import AIContext
-from downedit.service import Client
-from downedit.service import retry_async, httpx_capture_async
-from downedit.platforms import Domain, Turnstile
+from downedit.service import (
+    Client,
+    Turnstile,
+    retry_async,
+    httpx_capture_async
+)
+from downedit.platforms import Domain
 from downedit.platforms.ai_image.base import ImageAIService
 from downedit.utils import (
     log

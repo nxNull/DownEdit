@@ -2,7 +2,7 @@ import asyncio
 import ssl
 import httpx
 
-from .proxy import Proxy
+from .proxy.proxy import Proxy
 from .headers import Headers
 
 class Client:
