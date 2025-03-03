@@ -14,10 +14,15 @@ def main():
         banner_display,
         banner_msg
     )
+
     user = input(f"{Fore.YELLOW}Enter User Link:{Fore.WHITE} ")
     # Is Working with cookies is a bit tricky. Currently we'll just ask the user to input it
     cookies = input(f"{Fore.YELLOW}Enter Cookies:{Fore.WHITE} ")
-    kuaishou = KuaiShou(user=user, cookies=cookies)
+
+    kuaishou = KuaiShou(
+        user=user,
+        cookies=cookies
+    )
     kuaishou.download_all_videos()
 
 if __name__ == "__main__":
