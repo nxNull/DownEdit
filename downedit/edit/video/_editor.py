@@ -99,7 +99,6 @@ class VideoEditor(Editor):
         try:
             self.clip.write_videofile(
                 self.output_path,
-                verbose=False,
                 logger=None,
                 codec='libx264',
                 audio_codec="aac",

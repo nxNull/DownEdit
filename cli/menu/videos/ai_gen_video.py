@@ -20,11 +20,13 @@ def display_menu():
         banner_display,
         banner_msg, "- ai generative"
     )
+
     available_tools = {
         f" Cloud {Fore.RED}(Soon)" : lambda: None,
         f" Local {Fore.RED}(Soon)" : lambda: None,
         f" Back"                   : lambda: None,
     }
+
     return selector.start(
         menu_options=available_tools,
         input_message=f"{Fore.YELLOW}Select Tools{Fore.WHITE}"

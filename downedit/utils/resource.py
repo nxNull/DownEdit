@@ -32,7 +32,8 @@ class ResourceUtil:
         """
         self.folder_root = Path(folder_root).resolve()
 
-    def folder(self, folder_root: Union[str, Path], directory_name: str) -> Path:
+    @classmethod
+    def folder(cls, folder_root: Union[str, Path], directory_name: str) -> Path:
         """
         Creates a folder if it does not exist.
 

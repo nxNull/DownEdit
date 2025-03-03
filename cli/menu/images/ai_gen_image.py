@@ -14,15 +14,18 @@ def cloud_ai_generator():
     user_prompt = input(
         f"{Fore.YELLOW}Enter prompt:{Fore.WHITE} "
     )
+
     image_sizes = {
         " 512x512": "512x512",
         " 512x768": "512x768",
         " 768x512": "768x512",
     }
+
     selected_size = selector.select_menu(
         message=f"{Fore.YELLOW}Image Size{Fore.WHITE}",
         choices=image_sizes
     ).strip()
+
     image_amounts = input(
         f"{Fore.YELLOW}Enter amount of images (Max: 99):{Fore.WHITE} "
     )
@@ -47,11 +50,13 @@ def display_menu():
         banner_display,
         banner_msg, "- ai generative"
     )
+
     available_tools = {
         f" Cloud"                  : cloud_ai_generator,
         f" Local {Fore.RED}(Soon)" : lambda: None,
         f" Back"                   : lambda: None,
     }
+
     return selector.start(
         menu_options=available_tools,
         input_message=f"{Fore.YELLOW}Select Tools{Fore.WHITE}"

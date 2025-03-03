@@ -35,7 +35,7 @@ class AIImgEditProcess(Process):
         """
         return ResourceUtil.get_folder_path(
             folder_root=ResourceUtil.create_folder(folder_type="AI_Photo_Editor"),
-            directory_name=tool
+            directory_name=tool.lstrip()
         )
 
     def _init_operations(self, **kwargs) -> Handler:
