@@ -8,9 +8,10 @@ from .decorators        import (
 from .client            import Client
 from .client_hints      import ClientHints
 from .headers           import Headers
-from .proxy             import Proxy
+from .proxy.proxy       import Proxy
 from .user_agents       import UserAgent
 from .fingerprint       import Fingerprint
+from .cloudflare        import Turnstile
 
 __all__ = [
     'retry_sync',
@@ -22,5 +23,6 @@ __all__ = [
     'Headers',
     'Proxy',
     'UserAgent',
-    'Fingerprint'
+    'Fingerprint',
+    "Turnstile"
 ]

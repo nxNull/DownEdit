@@ -37,11 +37,6 @@ class Chrome():
 
     def get_versions(self):
         return  {
-            # '115.0.5790': {'minor_range': (0, 255), 'webkit': '537.36'},
-            # '116.0.5845': {'minor_range': (0, 255), 'webkit': '537.36'},
-            # '117.0.5938': {'minor_range': (0, 255), 'webkit': '537.36'},
-            # '118.0.5993': {'minor_range': (0, 255), 'webkit': '537.36'},
-            # '119.0.6045': {'minor_range': (0, 255), 'webkit': '537.36'},
             '120.0.6099': {'minor_range': (0, 255), 'webkit': '537.36'},
             '121.0.6167': {'minor_range': (0, 255), 'webkit': '537.36'},
             '122.0.6261': {'minor_range': (0, 255), 'webkit': '537.36'},
@@ -94,19 +89,6 @@ class Firefox():
 
     def get_versions(self):
         return {
-            # '115.0': {'minor_range': (0, 3)},
-            # '115.1': {'minor_range': (0, 0)},
-            # '115.2': {'minor_range': (0, 1)},
-            # '115.3': {'minor_range': (0, 1)},
-            # '115.4': {'minor_range': (0, 0)},
-            # '115.5': {'minor_range': (0, 0)},
-            # '115.6': {'minor_range': (0, 0)},
-            # '115.7': {'minor_range': (0, 0)},
-            # '115.8': {'minor_range': (0, 0)},
-            # '116.0': {'minor_range': (0, 3)},
-            # '117.0': {'minor_range': (0, 1)},
-            # '118.0': {'minor_range': (0, 2)},
-            # '119.0': {'minor_range': (0, 1)},
             '120.0': {'minor_range': (0, 1)},
             '121.0': {'minor_range': (0, 1)},
             '122.0': {'minor_range': (0, 1)},
@@ -159,11 +141,6 @@ class Edge():
 
     def get_versions(self):
         return {
-            # '115.0.1901': {'minor_range': (0, 99), 'webkit': '537.36'},
-            # '116.0.1938': {'minor_range': (0, 99), 'webkit': '537.36'},
-            # '117.0.2045': {'minor_range': (0, 99), 'webkit': '537.36'},
-            # '118.0.2088': {'minor_range': (0, 99), 'webkit': '537.36'},
-            # '119.0.2151': {'minor_range': (0, 99), 'webkit': '537.36'},
             '120.0.2210': {'minor_range': (0, 99), 'webkit': '537.36'},
             '121.0.2277': {'minor_range': (0, 99), 'webkit': '537.36'},
             '122.0.2365': {'minor_range': (0, 99), 'webkit': '537.36'},

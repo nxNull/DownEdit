@@ -16,7 +16,7 @@ class Android():
     def __init__(self):
         pass
 
-    def get_versions(self): 
+    def get_versions(self):
         return {
             '8.0': {
                 'minor_range': (0, 5),
@@ -35,7 +35,7 @@ class Android():
             '10.0': {
                 'minor_range': (0, 0),
                 'build_number': ('QD1A.{device}.{version}', 'QQ1B.{device}.{version}', 'QQ1C.{device}.{version}', 'QQ1D.{device}.{version}', 'QQ2A.{device}.{version}')
-            },  
+            },
             '11.0': {
                 'minor_range': (0, 0),
                 'build_number': ('RP1A.{device}.{version}', 'RP1B.{device}.{version}', 'RP1C.{device}.{version}', 'RP1D.{device}.{version}', 'RD1A.{device}.{version}',
@@ -62,14 +62,14 @@ class Android():
                 'build_number': ('AP3A.{device}.{version}', 'AP4A.{device}.{version}', 'AP4A.{device}.{version}')
             },
         }
-    
+
     def get_models(self):
         """
         Samsung Galaxy Models
-        
+
         description:
             The list of Samsung Galaxy models that are supported by the service.
-        
+
         Reference:
             https://firmware.gem-flash.com/index.php?a=downloads&b=folder&id=980
         """
@@ -176,17 +176,17 @@ class Android():
 class IOS():
     """
     iOS mobile operating system
-    
+
     description:
         The version of iOS is based on the build number. We have used the stable release version provided by Apple to determine the minor version range.
-        
+
     Reference:
         https://ipsw.me/product/iPhone
     """
     def __init__(self):
         pass
-    
-    def get_versions(self): 
+
+    def get_versions(self):
         return {
             '14.0': {'minor_range': (0, 1)},
             '14.1': {'minor_range': (0, 0)},
@@ -214,22 +214,25 @@ class IOS():
             '17.5': {'minor_range': (0, 1)},
             '17.6': {'minor_range': (0, 1)},
             '18.0': {'minor_range': (0, 2)},
+            '18.1': {'minor_range': (0, 2)},
+            '18.2': {'minor_range': (0, 1)},
+            '18.3': {'minor_range': (0, 1)},
         }
 
 class macOS():
     """
     macOS desktop operating system
-    
+
     description:
         The version of macOS is based on the build number. We have used the stable release version provided by Apple.
-        
+
     Reference:
         https://support.apple.com/en-us/HT201260
     """
     def __init__(self):
         pass
-    
-    def get_versions(self): 
+
+    def get_versions(self):
         return {
             '10.11': {'minor_range': (0, 6)},
             '10.12': {'minor_range': (0, 6)},
@@ -262,6 +265,7 @@ class macOS():
             '14.5': {'minor_range': (0, 0)},
             '14.6': {'minor_range': (0, 1)},
             '15.0': {'minor_range': (0, 2)},
+            '15.3': {'minor_range': (0, 1)},
         }
 
 class Linux():
@@ -312,6 +316,8 @@ class Linux():
             '6.10': {'minor_range': (0, 0)},
             '6.11': {'minor_range': (0, 0)},
             '6.12': {'minor_range': (0, 0)},
+            '6.13': {'minor_range': (0, 2)},
+            '6.14': {'minor_range': (0, 0)},
         }
 
 class Windows():
