@@ -10,3 +10,4 @@ wmi
 psutil
 httpx
 aiofiles
+pydantic
