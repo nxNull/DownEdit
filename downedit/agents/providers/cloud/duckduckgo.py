@@ -129,7 +129,7 @@ class DuckDuckGo(Provider):
         except Exception as e:
             log.error(f"{e}")
             return None
-    
+
     def __stream_response(self, response):
         """
         Stream the response from the API.
@@ -140,12 +140,12 @@ class DuckDuckGo(Provider):
         for line in response_text.split("\n"):
             if not line.startswith("data: "):
                 continue
-                
+
             data = line[6:]
-            
+
             if data == "[DONE]":
                 continue
-                
+
             try:
                 message = json.loads(data).get("message", "")
                 if message:
