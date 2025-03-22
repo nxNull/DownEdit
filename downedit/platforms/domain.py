@@ -43,12 +43,23 @@ class AIGG_API:
     GENERATE_IMAGE = f"{DOMAIN}/api/model/predict-peach"
 
 
+class Pollinations_API:
+    """
+    Contains the base API URL for Pollinations services.
+    """
+    DOMAIN: str = "https://image.pollinations.ai"
+    
+    # Generate Image
+    GENERATE_IMAGE = f"{DOMAIN}/prompt/"
+
+
 class AI_Image_API:
     """
     Contains the base API URL for AI Image services.
     """
     PERCHANCE = Perchance_API()
     AIGG = AIGG_API()
+    POLLINATIONS = Pollinations_API()
 
 
 class KauiShou_API:
