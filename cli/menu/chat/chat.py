@@ -23,7 +23,7 @@ def chat():
         absolute_agent,
         "Hello"
     )
-    
+
     print(f"{Fore.CYAN}AI{Fore.WHITE}: {response.get('message', 'Hello! How can I assist you today?')}")
 
     while True:
