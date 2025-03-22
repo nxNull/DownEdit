@@ -45,8 +45,8 @@ class GenerativeImageAI:
         """
         prov_arg = {}
         prov_arg["size"] = self.user_context.get("size", "512x512")
-        prov_arg["prompt"] = self.user_context.get("prompt")
-        prov_arg["negativePrompt"] = self.ai_context.get("negative_prompt")
+        prov_arg["prompt"] = self.user_context.get("prompt", "")
+        prov_arg["negativePrompt"] = self.ai_context.get("negative_prompt", "")
         self.ai_context.reset(prov_arg)
 
         async with Client(headers=self.headers.get()) as client:
