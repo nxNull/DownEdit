@@ -29,6 +29,6 @@ def invoke_tool_sync(tool_name: str, tool_args: dict):
                 tool_instance.start()
         except Exception as e:
             pass
-            log.error(f"❌ Failed to invoke tool '{tool_name}': {str(e)}")
+
     else:
         log.error(f"Tool '{tool_name}' not found.")
