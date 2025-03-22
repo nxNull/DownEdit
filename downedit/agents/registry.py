@@ -1,17 +1,28 @@
 from downedit.edit.ai.cloud.image import AIImgGenProcess
+from downedit.platforms import (
+    Youtube,
+    KuaiShou
+)
 from downedit.edit import (
     VideoProcess,
     SoundProcess,
     ImageProcess
 )
 
+__all__ = ["get_tool"]
 
-TOOLS = {
-    "edit_video"        : VideoProcess,
-    "edit_image"        : ImageProcess,
-    "edit_sound"        : SoundProcess,
-    "generate_ai_image" : AIImgGenProcess,
-}
+
+TOOLS = {}
+TOOLS["edit_video"] = VideoProcess
+TOOLS["edit_image"] = ImageProcess
+TOOLS["edit_sound"] = SoundProcess
+TOOLS["generate_ai_image"] = AIImgGenProcess
+# TOOLS["generate_ai_sound"] = AISoundGenProcess
+# TOOLS["generate_ai_video"] = AIVidGenProcess
+# TOOLS["tiktok_downloader"] = Tiktok
+# TOOLS["douyin_downloader"] = Douyin
+TOOLS["youtube_downloader"] = Youtube
+# TOOLS["kuaishou_downloader"] = KuaiShou
 
 
 def get_tool(tool_name: str):

@@ -2,14 +2,15 @@ from typing import Dict, Generator, List
 
 from . import OperationFactory
 
-from ... import Extensions
-from ...utils.resource import ResourceUtil
-
 from downedit.edit.image._editor import ImageEditor
 from downedit.edit.image._task import ImageTask
+from downedit.edit.base import Handler
+from downedit.edit.process import Process
+from downedit.utils import ResourceUtil
+from downedit.__config__ import Config
 
-from ..base import Handler
-from ..process import Process
+
+__all__ = ["ImageProcess"]
 
 
 class ImageProcess(Process):
@@ -37,7 +38,7 @@ class ImageProcess(Process):
         """
         return ResourceUtil.get_file_list_yield(
             directory=process_folder,
-            extensions=Extensions.IMAGE
+            extensions=Config().file.extensions.IMAGE
         )
 
     def _get_output_folder(self, tool: str) -> str:

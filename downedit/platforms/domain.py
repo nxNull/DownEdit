@@ -92,6 +92,8 @@ class Tiktok_API:
     # Login
     LOGIN_ENDPOINT = f"{TIKTOK_DOMAIN}/login/"
 
+    EXPLORE = f"{TIKTOK_DOMAIN}/explore"
+
     # User Detail Info
     USER_DETAIL = f"{TIKTOK_DOMAIN}/api/user/detail/"
 

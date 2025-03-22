@@ -4,10 +4,14 @@ from . import OperationFactory
 
 from downedit.edit.ai.local.image.editor._task import AIImageTask
 from downedit.edit.ai.local.image.editor._editor import AIImageEditor
-from downedit.__config__ import Extensions
-from downedit.utils import ResourceUtil
 from downedit.edit.base import Handler
 from downedit.edit.process import Process
+from downedit.utils import ResourceUtil
+from downedit.__config__ import Config
+
+
+__all__ = ["AIImgEditProcess"]
+
 
 class AIImgEditProcess(Process):
     def __init__(
@@ -26,7 +30,7 @@ class AIImgEditProcess(Process):
         """
         return ResourceUtil.get_file_list_yield(
             directory=process_folder,
-            extensions=Extensions.IMAGE
+            extensions=Config().file.extensions.IMAGE
         )
 
     def _get_output_folder(self, tool: str) -> str:

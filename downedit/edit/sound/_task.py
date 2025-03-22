@@ -89,7 +89,7 @@ class SoundTask(Task):
             new_description="Done",
             new_state="success"
         )
-        
+
     async def execute(self):
         """
         Executes all queued sound editing tasks concurrently.

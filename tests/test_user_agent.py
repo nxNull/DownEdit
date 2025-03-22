@@ -1,12 +1,25 @@
+import unittest
+from unittest.mock import (
+    MagicMock,
+    patch
+)
+
 import os
 import sys
 
-import random
-import string
-import unittest
-from unittest.mock import MagicMock, patch
+__parent_dir = os.path.dirname(
+    os.path.dirname(
+        os.path.abspath(
+            __file__
+            )
+        )
+    )
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+if __parent_dir not in sys.path:
+    sys.path.insert(
+        0,
+        __parent_dir
+    )
 
 from downedit.service.user_agents import UserAgent, format_mm_version
 from downedit.service.platforms import Platform, Android, IOS, macOS, Linux, Windows, Mobile, Desktop

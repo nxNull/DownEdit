@@ -6,7 +6,7 @@ import urllib.parse
 from downedit.service.fingerprint import Fingerprint
 from downedit.service.serialization import format_mm_version
 from downedit.service.user_agents import UserAgent
-from downedit.platforms.bytedance.encrypt import Hash, Crypto
+from downedit.platforms.media.bytedance.encrypt import Hash, Crypto
 
 __all__ = ["ABogus"]
 

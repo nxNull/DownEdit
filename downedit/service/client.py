@@ -62,7 +62,7 @@ class Client:
         if self._client is None:
             self._client = httpx.Client(
                 headers=self.headers,
-                proxies=self.proxies,
+                # proxy=self.proxies,
                 verify=self.ssl,
                 timeout=self.timeout_config,
                 limits=self.limits,

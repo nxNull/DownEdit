@@ -1,9 +1,8 @@
 import httpx
-import asyncio
 
 from re import compile
-from typing import Union
 
+from downedit.platforms.domain import Domain
 from downedit.service import retry_async, httpx_capture_async
 from downedit.service import (
     Client,
@@ -16,9 +15,6 @@ class TikTokDid:
     """
     Retrieves the device ID and cookie from TikTok.
     """
-
-    _DEVICE_ID_REGEX = compile(r'"wid":"(\d{19})"')
-    _URL = "https://www.tiktok.com/explore"
 
     def __init__(self, headers: dict):
         self.headers = headers
@@ -46,7 +42,7 @@ class TikTokDid:
         """
         async with Client(headers=headers) as client:
             response = await client.aclient.get(
-                self._URL,
+                Domain.TIKTOK.EXPLORE,
                 headers=headers,
                 follow_redirects=True
             )
@@ -57,7 +53,8 @@ class TikTokDid:
         """
         Extracts the device ID from the response text.
         """
-        match = self._DEVICE_ID_REGEX.search(response_text)
+        DEVICE_ID_REGEX = compile(r'"wid":"(\d{19})"')
+        match = DEVICE_ID_REGEX.search(response_text)
         return match.group(1) if match else ""
 
     def _extract_cookie(
@@ -85,7 +82,7 @@ class TikTokDid:
             A tuple containing the device ID (str) and cookie (str). Returns ("", "") if not found.
         """
         headers = headers or self.headers
-        # headers["Referer"] = "https://www.tiktok.com/"
+        headers["Referer"] = Domain.TIKTOK.TIKTOK_DOMAIN
 
         response = await self._fetch_tiktok_data(headers, **kwargs)
         device_id = self._extract_device_id(response.text)

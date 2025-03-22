@@ -37,20 +37,12 @@ class Chrome():
 
     def get_versions(self):
         return  {
-            '120.0.6099': {'minor_range': (0, 255), 'webkit': '537.36'},
-            '121.0.6167': {'minor_range': (0, 255), 'webkit': '537.36'},
-            '122.0.6261': {'minor_range': (0, 255), 'webkit': '537.36'},
-            '123.0.6312': {'minor_range': (0, 255), 'webkit': '537.36'},
-            '124.0.6367': {'minor_range': (0, 255), 'webkit': '537.36'},
-            '125.0.6422': {'minor_range': (0, 255), 'webkit': '537.36'},
-            '126.0.6478': {'minor_range': (0, 255), 'webkit': '537.36'},
-            '127.0.6533': {'minor_range': (0, 255), 'webkit': '537.36'},
-            '128.0.6613': {'minor_range': (0, 255), 'webkit': '537.36'},
             '129.0.6668': {'minor_range': (0, 255), 'webkit': '537.36'},
             '130.0.6723': {'minor_range': (0, 255), 'webkit': '537.36'},
             '131.0.6778': {'minor_range': (0, 255), 'webkit': '537.36'},
             '132.0.6834': {'minor_range': (0, 255), 'webkit': '537.36'},
             '133.0.6943': {'minor_range': (0, 255), 'webkit': '537.36'},
+            '134.0.6998': {'minor_range': (0, 255), 'webkit': '537.36'},
         }
 
 class Firefox():
@@ -89,22 +81,14 @@ class Firefox():
 
     def get_versions(self):
         return {
-            '120.0': {'minor_range': (0, 1)},
-            '121.0': {'minor_range': (0, 1)},
-            '122.0': {'minor_range': (0, 1)},
-            '123.0': {'minor_range': (0, 1)},
-            '124.0': {'minor_range': (0, 2)},
-            '125.0': {'minor_range': (1, 3)},
-            '126.0': {'minor_range': (0, 0)},
-            '127.0': {'minor_range': (0, 2)},
-            '128.0': {'minor_range': (0, 1)},
             '129.0': {'minor_range': (0, 0)},
             '130.0': {'minor_range': (0, 1)},
             '131.0': {'minor_range': (0, 3)},
             '132.0': {'minor_range': (0, 2)},
             '133.0': {'minor_range': (3, 3)},
             '134.0': {'minor_range': (1, 2)},
-            '135.0': {'minor_range': (0, 0)},
+            '135.0': {'minor_range': (0, 1)},
+            '136.0': {'minor_range': (0, 2)},
         }
 
 class Edge():
@@ -141,20 +125,12 @@ class Edge():
 
     def get_versions(self):
         return {
-            '120.0.2210': {'minor_range': (0, 99), 'webkit': '537.36'},
-            '121.0.2277': {'minor_range': (0, 99), 'webkit': '537.36'},
-            '122.0.2365': {'minor_range': (0, 99), 'webkit': '537.36'},
-            '123.0.2420': {'minor_range': (0, 99), 'webkit': '537.36'},
-            '124.0.2478': {'minor_range': (0, 99), 'webkit': '537.36'},
-            '125.0.2535': {'minor_range': (0, 99), 'webkit': '537.36'},
-            '126.0.2592': {'minor_range': (0, 99), 'webkit': '537.36'},
-            '127.0.2651': {'minor_range': (0, 99), 'webkit': '537.36'},
-            '128.0.2739': {'minor_range': (0, 99), 'webkit': '537.36'},
             '129.0.2792': {'minor_range': (0, 99), 'webkit': '537.36'},
             '130.0.2849': {'minor_range': (0, 99), 'webkit': '537.36'},
             '131.0.2903': {'minor_range': (0, 99), 'webkit': '537.36'},
             '132.0.6903': {'minor_range': (0, 99), 'webkit': '537.36'},
-            '133.0.0.0': {'minor_range': (0, 99), 'webkit': '537.36'},
+            '133.0.3065': {'minor_range': (0, 99), 'webkit': '537.36'},
+            '134.0.3124': {'minor_range': (0, 99), 'webkit': '537.36'},
         }
 
 class Safari():

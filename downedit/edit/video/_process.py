@@ -2,14 +2,15 @@ from typing import Dict, Generator, List
 
 from . import OperationFactory
 
-from ... import Extensions
-from ...utils.resource import ResourceUtil
-
 from downedit.edit.video._editor import VideoEditor
 from downedit.edit.video._task import VideoTask
+from downedit.edit.base import Handler
+from downedit.edit.process import Process
+from downedit.utils import ResourceUtil
+from downedit.__config__ import Config
 
-from ..base import Handler
-from ..process import Process
+
+__all__ = ["VideoProcess"]
 
 
 class VideoProcess(Process):
@@ -31,7 +32,7 @@ class VideoProcess(Process):
         """
         return ResourceUtil.get_file_list_yield(
             directory=process_folder,
-            extensions=Extensions.VIDEO
+            extensions=Config().file.extensions.VIDEO
         )
 
     def _get_output_folder(self, tool: str) -> str:

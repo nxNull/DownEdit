@@ -1,14 +1,40 @@
+__all__ = ['Config', 'DE_VERSION']
+
+
 CHUNK_SIZE = 1024
 DE_VERSION = open('version', 'r').read().strip()
 
 
 class Config:
     """
-    A class that provides setting for different types of configurations.
+    Central configuration class that provides access to various settings via properties.
     """
 
-    def __init__(self) -> None:
-        pass
+    @property
+    def folder(self):
+        class FolderNamespace:
+            @property
+            def bin(self):
+                return BinFolder
+
+            @property
+            def edit(self):
+                return EditFolder
+
+            @property
+            def media(self):
+                return MediaFolder
+
+        return FolderNamespace()
+
+    @property
+    def file(self):
+        class FileNamespace:
+            @property
+            def extensions(self):
+                return Extensions
+
+        return FileNamespace()
 
 
 class BinFolder:
@@ -126,3 +152,4 @@ class AIContext:
         String representation of the current configuration.
         """
         return str(self.config_data)
+

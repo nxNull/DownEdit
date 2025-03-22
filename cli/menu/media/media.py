@@ -19,6 +19,7 @@ def display_menu():
         banner_display,
         banner_msg
     )
+
     # TODO: Media Video Downloader Algorithm
     menu_list = {
         f" Tiktok  {Fore.RED}(Rework)": lambda: None,

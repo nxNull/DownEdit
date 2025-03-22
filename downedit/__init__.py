@@ -5,7 +5,7 @@ This module provides tools for downloading, editing, and generating videos, imag
 It includes functionalities for handling various media types, interfacing with popular platforms, and AI-driven media processing.
 
 Author: Sokunheng
-Version: 2.7.0
+Version: 1.0.1
 Repository: https://github.com/sokunheng/DownEdit
 """
 
@@ -51,7 +51,7 @@ from downedit.edit.ai.cloud import AIImgGenProcess as AIGenImgCloud
 from downedit.download import Downloader
 
 __author__          = "sokunheng"
-__version__         = "2.8.0"
+__version__         = "1.0.1"
 __description_en__  = "Download, Edit, and Generate Videos, Images and Sounds, in bulk using AI"
 __reponame__        = "DownEdit"
 __repourl__         = "https://github.com/sokunheng/DownEdit"

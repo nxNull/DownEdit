@@ -1,5 +1,7 @@
 from typing import Dict, Generator, List
 
+from downedit.__config__ import Config
+
 from . import OperationFactory
 
 from ... import Extensions
@@ -32,7 +34,7 @@ class SoundProcess(Process):
         """
         return ResourceUtil.get_file_list_yield(
             directory=process_folder,
-            extensions=Extensions.SOUND
+            extensions=Config().file.extensions.SOUND
         )
 
     def _get_output_folder(self, tool: str) -> str:

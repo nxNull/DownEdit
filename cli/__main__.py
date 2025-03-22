@@ -2,6 +2,7 @@ import sys
 
 from colorama       import Fore, Back
 
+from cli.menu.chat   import chat           as chat
 from cli.menu.media  import media          as video_dl
 from cli.menu.images import ai_gen_image   as ai_img_gen
 from cli.menu.images import ai_edit_image  as ai_img_editor
@@ -38,7 +39,7 @@ def display_menu():
         banner_msg, title=" - Main Menu"
     )
     available_tools = {
-        f" ChatDE {Fore.RED}(Soon)"             : lambda: None,
+        f" ChatDE"                              : chat.main,
         f" Download Video"                      : video_dl.main,
         f" Edit Video"                          : video_editor.main,
         f" AI Edit Video {Fore.RED}(Soon)"      : lambda: None,

@@ -4,10 +4,9 @@ import uuid
 from typing import Union, Generator, Optional
 from pathlib import Path
 
-from .. import (
+from downedit import (
     CHUNK_SIZE,
-    EditFolder,
-    MediaFolder
+    Config
 )
 
 class ResourceError(Exception):
@@ -80,15 +79,16 @@ class ResourceUtil:
             str: The absolute path of the created folder.
         """
         folder_root = cls().folder_root
+        folder_name = None
 
-        if hasattr(EditFolder, folder_type):
-            folder_name = getattr(EditFolder, folder_type)
-        elif hasattr(MediaFolder, folder_type):
-            folder_name = getattr(MediaFolder, folder_type)
+        if hasattr(Config().folder.edit, folder_type):
+            folder_name = getattr(Config().folder.edit, folder_type)
+        elif hasattr(Config().folder.media, folder_type):
+            folder_name = getattr(Config().folder.media, folder_type)
         else:
             raise ValueError(f"Invalid folder type: {folder_type}")
 
-        return cls.folder(folder_root, folder_name)
+        return str(cls.folder(folder_root, folder_name))
 
     @classmethod
     def get_folder_path(cls, folder_root: str, directory_name: str) -> str:
