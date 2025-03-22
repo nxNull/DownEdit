@@ -100,10 +100,10 @@ class Agent:
 
             if tool_name is None:
                 raise ValueError("Tool name is required")
-            
+
             tool_args = task.get("tool_args", {})
-            
+
             if not isinstance(tool_args, dict):
                 raise ValueError("Tool args must be a dictionary")
-            
+
             invoke_tool_sync(tool_name, tool_args)
