@@ -11,7 +11,7 @@ class ImageEditor(Editor):
     def __init__(self, input_path = "", output_path = ""):
         super().__init__(input_path, output_path)
         self._img = None
-        
+
     def _get_properties(self):
         """Gets the properties of the image."""
         width, height = self._img.size
@@ -23,7 +23,7 @@ class ImageEditor(Editor):
         lower = (height + min_side_length) / 2
 
         return left, upper, right, lower
-        
+
     def _load_image(self):
         """Loads the image from the input path."""
         if self.input_path is None:
