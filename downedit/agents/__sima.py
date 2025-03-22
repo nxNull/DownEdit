@@ -44,7 +44,7 @@ class SIMA:
             raise ValueError(
                 f"Invalid agent type: {agent_type}. Must be 'cloud' or 'local'"
             )
-        
+
         chat_instance = Chat(
             model=model,
             messages=[]
@@ -59,7 +59,7 @@ class SIMA:
         )
 
         return agent_id
-    
+
     def instruction(
         self,
         agent_id: str,
@@ -77,13 +77,13 @@ class SIMA:
         Returns:
             str: The response from the agent.
         """
-        agent = self._ai_factory.get_agent(agent_id)  
+        agent = self._ai_factory.get_agent(agent_id)
 
         return agent.instruction(
             messages,
             **kwargs
         )
-    
+
     def run(self, agent_id: str, tasks: list = []):
         """
         Run the agent.
