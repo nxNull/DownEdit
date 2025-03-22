@@ -53,12 +53,6 @@
 | Video Generation | `None` | | None | ✔️ |  | ![Inactive](https://img.shields.io/badge/Inactive-red) |
 | Sound Generation | `None` | | None | ✔️ |  | ![Inactive](https://img.shields.io/badge/Inactive-red) |
 
-- `DownEdit`
-
-| Type | Model | Capabilities | Use Case | Status |
-| --- | --- | --- | --- | --- |
-| | | | | ![Inactive](https://img.shields.io/badge/Inactive-red) |
-
 ## 🚀 Usage
 - **`Edit Video`** - Simply copy and paste (right click) whatever directory location you would like to process.
 
