@@ -237,7 +237,7 @@ GEN_AI_IMAGE = ToolSchema(
         ),
         "size": Parameter(
             type="string",
-            description="Image size (e.g., 512x512, 512x768, 768x512)"
+            description="Image size (e.g., 1024x512, 1024x1024, 512x1024)"
         ),
         "amount": Parameter(
             type="integer",
@@ -250,14 +250,14 @@ GEN_AI_IMAGE = ToolSchema(
     },
     examples=[
         ToolExample(
-            input="Generate an AI image based on the prompt 'A futuristic city with flying cars' amount 5 images of size 512x512.",
+            input="Generate an AI image based on the prompt 'A futuristic city with flying cars' amount 5 images of size 1024x512.",
             output="""
             {
                 "tool_name": "generate_ai_image",
-                "tool_args": {        
+                "tool_args": {
                     context={
                         "prompt": "A futuristic city with flying cars",
-                        "size": "512x512"
+                        "size": "1024x512"
                     },
                     "amount": 5,
                     "batch_size": 5
@@ -265,14 +265,14 @@ GEN_AI_IMAGE = ToolSchema(
             }"""
         ),
         ToolExample(
-            input="Generate an AI image based on the prompt 'A cat in space' amount 3 images of size 768x512.",
+            input="Generate an AI image based on the prompt 'A cat in space' amount 3 images of size 1024x1024.",
             output="""
             {
                 "tool_name": "generate_ai_image",
                 "tool_args": {
                     context={
                         "prompt": "A cat in space",
-                        "size": "768x512"
+                        "size": "1024x1024"
                     },
                     "amount": 3,
                     "batch_size": 5
