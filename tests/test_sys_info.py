@@ -3,6 +3,7 @@ import unittest
 import os
 import sys
 
+
 __parent_dir = os.path.dirname(
     os.path.dirname(
         os.path.abspath(
@@ -16,6 +17,7 @@ if __parent_dir not in sys.path:
         0,
         __parent_dir
     )
+
 
 from downedit.utils import pc_info
 
