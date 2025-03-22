@@ -16,15 +16,15 @@ def cloud_ai_generator():
     )
 
     image_sizes = {
-        " 512x512": "512x512",
-        " 512x768": "512x768",
-        " 768x512": "768x512",
+        " Landscape": "1024x512",
+        " Square"   : "1024x1024",
+        " Vertical" : "512x1024",
     }
 
     selected_size = selector.select_menu(
         message=f"{Fore.YELLOW}Image Size{Fore.WHITE}",
         choices=image_sizes
-    ).strip()
+    )
 
     image_amounts = input(
         f"{Fore.YELLOW}Enter amount of images (Max: 99):{Fore.WHITE} "
@@ -33,7 +33,7 @@ def cloud_ai_generator():
     with AIGenImgCloud(
         context={
             "prompt": user_prompt,
-            "size": selected_size
+            "size": image_sizes.get(selected_size)
         },
         amount= min(int(image_amounts) if image_amounts.isdigit() else 1, 99),
         batch_size=5,
