@@ -5,7 +5,8 @@ from downedit.service import Client
 from downedit.platforms.ai_image.base import BaseAIGen
 from downedit.platforms.ai_image.providers import (
     AIGG,
-    PerchanceCC
+    PerchanceCC,
+    Pollinations
 )
 from downedit.utils import (
     log
@@ -27,8 +28,8 @@ class GenImageAI(BaseAIGen):
         """
         Returns a list of AI image providers.
         """
-        # provider_classes = [Perchance, PerchanceCC, AIGG]
-        provider_classes = [PerchanceCC, AIGG]
+        # provider_classes = [Perchance, PerchanceCC, AIGG, Pollinations]
+        provider_classes = [Pollinations]
         selected_provider = random.choice(provider_classes)
 
         prov_arg = {}
