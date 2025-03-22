@@ -37,10 +37,6 @@ def chat():
             user_input
         )
 
-        log.debug(
-            f"Response: {response}"
-        )
-
         print(f"{Fore.CYAN}AI{Fore.WHITE}: {response.get('message', '')}")
 
         sima.run(
