@@ -1,3 +1,4 @@
+import datetime
 import httpx
 import random
 import asyncio
@@ -114,7 +115,7 @@ class Pollinations(ImageAIService):
 
             return {
                 "data": {
-                    "fileId": f"{self.context.get('seed')}",
+                    "fileId": f"{self.context.get('seed')}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}",
                     "url": url
                 }
             }
