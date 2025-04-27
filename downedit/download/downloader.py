@@ -41,34 +41,34 @@ class Downloader:
                 return size
         return 5 * 1024 * 1024
 
-    async def _get_content_length(self, content_url: str, headers: dict = None, proxy_url: dict = None) -> int:
+    async def _get_content_length(self, content_url: str, headers: dict = None) -> int:
         """
         Retrieves the content length of a file from the given URL.
         """
-        proxy = proxy_url.get("url") if isinstance(proxy_url, dict) else None
-        async with httpx.AsyncClient(
-            timeout=10.0,
-            transport=httpx.AsyncHTTPTransport(retries=5, proxy=proxy),
-            verify=False,
-        ) as client:
-            try:
-                response = await client.head(
-                    url=content_url,
-                    headers=headers,
-                    follow_redirects=True
-                )
+        try:
+            async with self.service.aclient.stream(
+                method="GET",
+                url=content_url,
+                headers=headers,
+                follow_redirects=True
+            ) as response:
                 response.raise_for_status()
                 return int(response.headers.get("Content-Length", 0))
-            except Exception as e:
-                log.error(f"Failed to retrieve content length: {e}")
-                return 0
+        except Exception as e:
+            log.error(f"Failed to retrieve content length: {e}")
+            return 0
 
     async def _download_part(self, url: str, headers: dict, start: int, end: int, output_file: str):
         """
         Downloads a part of the file within the specified byte range.
         """
         range_headers = {**headers, "Range": f"bytes={start}-{end}"}
-        async with self.service.aclient.stream("GET", url, headers=range_headers) as response:
+        async with self.service.aclient.stream(
+            "GET",
+            url,
+            headers=range_headers,
+            follow_redirects=True
+        ) as response:
             response.raise_for_status()
             async with aiofiles.open(output_file, mode="r+b") as file:
                 await file.seek(start)
@@ -127,7 +127,10 @@ class Downloader:
         if task_id is None:
             return
 
-        content_length = await self._get_content_length(file_url, self.service.headers, self.service.proxies)
+        content_length = await self._get_content_length(
+            file_url,
+            self.service.headers
+        )
         if content_length == 0:
             return await self.task_progress.update_task(
                 task_id, new_state="failure", still_visible=True
@@ -135,25 +138,35 @@ class Downloader:
 
         download_task = asyncio.create_task(
             self._download_single_file(
-                service_step,
-                task_id,
-                file_name,
-                file_url,
-                file_output
+                service_step=service_step,
+                task_id=task_id,
+                file_name=file_name,
+                file_url=file_url,
+                file_output=file_output,
+                content_length=content_length
             )
             if content_length < small_file_threshold
             else self.download_file(
-                service_step,
-                task_id,
-                file_name,
-                file_url,
-                file_output,
-                num_parts
+                service_step=service_step,
+                task_id=task_id,
+                file_name=file_name,
+                file_url=file_url,
+                file_output=file_output,
+                num_parts=num_parts,
+                content_length=content_length
             )
         )
         self.download_tasks.append(download_task)
 
-    async def _download_single_file(self, service_step: tuple, task_id, file_name: str, file_url: str, file_output: str):
+    async def _download_single_file(
+        self,
+        service_step: tuple,
+        task_id,
+        file_name: str,
+        file_url: str,
+        file_output: str,
+        content_length: int = 0,
+    ):
         """
         Downloads a small file in a single stream.
         """
@@ -166,9 +179,13 @@ class Downloader:
                 new_state="downloading"
             )
             try:
-                async with self.service.aclient.stream("GET", file_url, headers=headers) as response:
+                async with self.service.aclient.stream(
+                    "GET",
+                    file_url,
+                    headers=headers,
+                    follow_redirects=True
+                ) as response:
                     response.raise_for_status()
-                    content_length = await self._get_content_length(file_url, headers, self.service.proxies)
                     await self.task_progress.update_task(
                         task_id,
                         new_total=content_length
@@ -193,7 +210,16 @@ class Downloader:
             still_visible=True
         )
 
-    async def download_file(self, service_step: tuple, task_id, file_name: str, file_url: str, file_output: str, num_parts: int = 4):
+    async def download_file(
+        self,
+        service_step: tuple,
+        task_id,
+        file_name: str,
+        file_url: str,
+        file_output: str,
+        num_parts: int = 4,
+        content_length: int = 0,
+    ):
         """
         Downloads a file using multiple parts to improve speed.
         """
@@ -201,7 +227,6 @@ class Downloader:
         headers = self.service.headers
 
         async with self.service.semaphore:
-            content_length = await self._get_content_length(file_url, headers, self.service.proxies)
             if content_length == 0:
                 return await self.task_progress.update_task(
                     task_id, new_state="failure", still_visible=True
