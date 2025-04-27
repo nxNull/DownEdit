@@ -62,8 +62,7 @@ class KuaishouDL:
         """
         Downloads multiple videos from the provided URLs.
         """
-        client = Client()
-        client.headers = self.client.headers
+        client = Client(headers=self.headers.get())
 
         async with Downloader(client) as downloader:
             for video in video_list:

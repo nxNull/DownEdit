@@ -145,6 +145,8 @@ class KuaiShou:
                 count=count,
             )
 
+            if not user_feed: break
+
             visionProfilePhotoList = user_feed.get("data", {}).get("visionProfilePhotoList", {})
 
             pcursor = visionProfilePhotoList.get("pcursor", "")

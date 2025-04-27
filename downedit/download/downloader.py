@@ -50,7 +50,8 @@ class Downloader:
                 method="GET",
                 url=content_url,
                 headers=headers,
-                follow_redirects=True
+                follow_redirects=True,
+                timeout=10
             ) as response:
                 response.raise_for_status()
                 return int(response.headers.get("Content-Length", 0))
