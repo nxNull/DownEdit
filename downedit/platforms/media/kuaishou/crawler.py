@@ -90,7 +90,7 @@ class KuaishouCrawler:
     @httpx_capture_async
     @retry_async(
         num_retries=3,
-        delay=5,
+        delay=3,
         exceptions=(
             httpx.TimeoutException,
             httpx.NetworkError,
@@ -131,7 +131,7 @@ class KuaishouCrawler:
                         count
                     )
                 ),
-                timeout=10,
+                timeout=5,
                 follow_redirects=True,
             )
             response.raise_for_status()

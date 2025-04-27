@@ -135,6 +135,8 @@ class Douyin:
                 count=count,
             )
 
+            if not user_feed: break
+
             item_list = user_feed.get("aweme_list") or []
             if not item_list:
                 break
