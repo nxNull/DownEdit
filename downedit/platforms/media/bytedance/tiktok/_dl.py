@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from downedit.service import httpx_capture_async, retry_async
 from downedit.download import Downloader
 from downedit.service import (
@@ -12,7 +13,8 @@ from downedit.utils import (
     log
 )
 
-class KuaishouDL:
+
+class TikTokDL:
     def __init__(self, *args, **kwargs) -> None:
         self.user_agent = UserAgent(
             platform_type="desktop",
@@ -39,6 +41,8 @@ class KuaishouDL:
         Downloads the video from the provided URL.
         """
         client = Client()
+        client.headers = self.client.headers
+
         async with Downloader(client) as downloader:
             await downloader.add_file(
                 file_url=video_url,

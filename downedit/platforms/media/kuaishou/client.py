@@ -1,7 +1,3 @@
-import json
-import secrets
-import httpx
-
 from downedit.platforms.domain import Domain
 from downedit.platforms.media.kuaishou.hash import KuaiShouHash
 from downedit.service import retry_async, httpx_capture_async
@@ -15,10 +11,12 @@ from downedit.utils import (
     log
 )
 
+
 class KuaiShouClient:
     """
     KuaiShou client configuration.
     """
+
     def __init__(self, client: Client = None):
         self.user_agent = UserAgent(
             platform_type="desktop",
@@ -42,121 +40,27 @@ class KuaiShouClient:
         self.client = client or self.default_client
         self.kuai_shou_hash = KuaiShouHash()
 
-    def extract_cookie_value(self, cookies, cookie_name):
-        """
-        Extracts the value of a specific cookie from a CookieJar object.
-
-        Args:
-            cookies (CookieJar): The cookies object returned from the HTTP response.
-            cookie_name (str): The name of the cookie to extract.
-
-        Returns:
-            str: The value of the specified cookie, or an empty string if not found.
-        """
-        cookie = next((cookie.value for cookie in cookies.jar if cookie.name == cookie_name), "")
-        return cookie
-
-    @httpx_capture_async
-    @retry_async(
-        num_retries=3,
-        delay=1,
-        exceptions=(
-            httpx.TimeoutException,
-            httpx.NetworkError,
-            httpx.HTTPStatusError,
-            httpx.ProxyError,
-            httpx.UnsupportedProtocol,
-            httpx.StreamError,
-        ),
-    )
-    async def get_client_live_details(self):
+    def get_client_details(self, input_cookie: str):
         """
         Generates KuaiShou client details.
 
         Returns:
             dict: A dictionary containing client details.
         """
-        headers = self.headers.get()
-        headers["Accept"] = "*/*"
-        headers["Connection"] = "keep-alive"
-        headers["Host"] = "live.kuaishou.com"
-        headers["Referer"] = Domain.KUAI_SHOU.DOMAIN
+        cookies = {
+            "kpf": "PC_WEB",
+            "clientid": "3",
+            "kpn": "KUAISHOU_VISION"
+        }
 
-        response = await self.client.aclient.get(
-            url=Domain.KUAI_SHOU.POPULAR,
-            headers=headers,
-            follow_redirects=True
-        )
-        response.raise_for_status()
-        # json_response = response.json()
-        did_cookies = response.cookies.get("did", "")
-        _did_cookies = response.cookies.get("_did", "")
-        live_bfb1s_cookies = response.cookies.get("kuaishou.live.bfb1s", "")
-        clientid_cookies = response.cookies.get("clientid", "")
-        client_key_cookies = response.cookies.get("client_key", "")
-        kpn_cookies = response.cookies.get("kpn", "")
-        client_cookies = (
-            # f"_did={_did_cookies};"
-            f"did={did_cookies}; ",
-            f"kuaishou.live.bfb1s={live_bfb1s_cookies}; "
-            f"clientid={clientid_cookies}; ",
-            f"did={did_cookies}; ",
-            f"client_key={client_key_cookies}; ",
-            f"kpn={kpn_cookies}",
-        )
-        return "".join(client_cookies)
+        if input_cookie:
+            if 'did=' in input_cookie:
+                did_value = input_cookie.split('did=')[-1].strip().split(';')[0]
+                cookies["did"] = did_value.strip().replace("'", "")
+            else:
+                raise ValueError("The 'did' value is missing in the input cookie.")
+        else:
+            raise ValueError("Input cookie is missing.")
 
-    @httpx_capture_async
-    @retry_async(
-        num_retries=3,
-        delay=1,
-        exceptions=(
-            httpx.TimeoutException,
-            httpx.NetworkError,
-            httpx.HTTPStatusError,
-            httpx.ProxyError,
-            httpx.UnsupportedProtocol,
-            httpx.StreamError,
-        ),
-    )
-    async def get_client_details(self, principalId: str):
-        """
-        Generates KuaiShou client details.
-
-        Returns:
-            dict: A dictionary containing client details.
-        """
-        cookies = (
-            f"kpf=PC_WEB; ",
-            f"clientid=3; ",
-            f"did={self.kuai_shou_hash.generate_web_did()}; ",
-            f"kpn=KUAISHOU_VISION"
-        )
-        client_cookies =  "".join(cookies)
-
-        header = self.headers.get()
-        header["Accept"] = "*/*"
-        header["Accept-Language"] = "en-US,en;q=0.9"
-        header["Content-Type"] = "application/json"
-        header["Connection"] = "keep-alive"
-        header["Cookie"] = client_cookies
-        header["Host"] = "www.kuaishou.com"
-        header["Origin"] = Domain.KUAI_SHOU.KAUI_SHOU_DOMAIN
-        header["Referer"] = Domain.KUAI_SHOU.FEED_PROFILE_URL + principalId
-        header["Sec-Fetch-Site"] = "same-origin"
-
-        payload = json.dumps({
-            "operationName": "visionLoginConfig",
-            "variables": {
-                "key": "frontendExplore.vision.loginConfig"
-            },
-            "query": "query visionLoginConfig($key: String) {\n  kconf(key: $key)\n}\n"
-        })
-        response = await Client().aclient.post(
-            url=Domain.KUAI_SHOU.DATA_URL,
-            headers=header,
-            data=payload
-        )
-        response.raise_for_status()
-        json_response = response.json()
-        return client_cookies
+        cookie_str = f"kpf={cookies['kpf']}; clientid={cookies['clientid']}; did={cookies['did']}; kpn={cookies['kpn']}"
+        return cookie_str

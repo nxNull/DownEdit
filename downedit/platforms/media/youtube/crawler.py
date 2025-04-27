@@ -19,7 +19,7 @@ from downedit.service import (
 TYPE_PROPERTY_MAP = {
     "videos": "videoRenderer",
     "streams": "videoRenderer",
-    "shorts": "reelItemRenderer"
+    "shorts": "reelWatchEndpoint"
 }
 SORT_BY_MAP = {
     "newest": 0,

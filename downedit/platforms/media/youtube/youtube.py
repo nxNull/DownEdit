@@ -10,9 +10,7 @@ from downedit.utils import (
 )
 
 class Youtube:
-    def __init__(self, channel, **kwargs):
-        self.channel = channel
-        self.video_type = kwargs.get("video_type", "videos")
+    def __init__(self, **kwargs):
         self.observer = Observer()
         self._output_folder = self._get_output_folder()
         self.youtube_crawler = YouTubeCrawler()
@@ -35,19 +33,24 @@ class Youtube:
         try:
             await self.youtube_dl.download_video(
                 video_url = video_url,
-                video_name = video_name
+                video_name = video_name,
+                output_folder= self._output_folder
             )
         except Exception as e:
             log.error(traceback.format_exc())
             log.pause()
 
-    async def download_all_videos_async(self):
+    async def download_all_videos_async(
+        self,
+        channel_url: str = None,
+        video_type: str = None
+    ):
         """
         Download all videos from the channel asynchronously
         """
         async for video in self.youtube_crawler.aget_channel(
-            channel_url=self.channel,
-            content_type=self.video_type
+            channel_url=channel_url,
+            content_type=video_type
         ):
             if self.observer.is_termination_signaled():
                     break
@@ -58,14 +61,21 @@ class Youtube:
                 video_name=video["title"]["runs"][0]["text"]
             )
 
-    def download_all_videos(self):
+    def download_all_videos(
+        self,
+        channel_url: str = None,
+        video_type: str = None
+    ):
         """
         Download all videos from the channel
         """
         self.observer.register_termination_handlers()
         try:
             asyncio.run(
-                self.download_all_videos_async()
+                self.download_all_videos_async(
+                    channel_url=channel_url,
+                    video_type=video_type
+                )
             )
         except Exception as e:
             log.error(traceback.format_exc())

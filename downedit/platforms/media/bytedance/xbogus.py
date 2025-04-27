@@ -3,201 +3,234 @@ import time
 import base64
 import hashlib
 
+from typing import List, Union
 import urllib.parse
 
+from downedit.platforms.media.bytedance.encrypt import Kb
 from downedit.service.fingerprint import Fingerprint
 from downedit.service.serialization import format_mm_version
 from downedit.service.user_agents import UserAgent
 
-__all__ = ["XBogus"]
+__all__ = ["TikTokXBogus"]
 
-class XBogus:
+class TikTokXBogus:
     """
     A class to generate the X-Bogus value for a given URL path.
     """
-    def __init__(self, user_agent: str = "") -> None:
-        self.Array = [None for _ in range(48)] + list(range(10)) + [None for _ in range(39)] + list(range(10, 16))
-        self.character = "Dkdpgh4ZKsQB80/Mfvw36XI1R25-WUAlEi7NLboqYTOPuzmFjJnryx9HVGcaStCe="
-        self.user_agent = (
-            user_agent
-            if user_agent is not None and user_agent != ""
-            else "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-        )
+    BASE_KEY = {
+        "s0": "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+        "s1": "Dkdpgh4ZKsQB80/Mfvw36XI1R25+WUAlEi7NLboqYTOPuzmFjJnryx9HVGcaStCe=",
+        "s2": "Dkdpgh4ZKsQB80/Mfvw36XI1R25-WUAlEi7NLboqYTOPuzmFjJnryx9HVGcaStCe="
+    }
 
-    def md5_str_to_array(self, md5_str):
-        """
-        Convert a string to an array of integers using the md5 hashing algorithm.
-        """
-        if isinstance(md5_str, str) and len(md5_str) > 32:
-            return [ord(char) for char in md5_str]
-        else:
-            array = []
-            idx = 0
-            while idx < len(md5_str):
-                array.append(
-                    (self.Array[ord(md5_str[idx])] << 4)
-                    | self.Array[ord(md5_str[idx + 1])]
-                )
-                idx += 2
-            return array
+    def __init__(self) -> None:
+        pass
 
-    def md5_encrypt(self, url_params):
+    @staticmethod
+    def Ab24(key: str, data: str) -> str:
         """
-        Encrypt the URL path using multiple rounds of md5 hashing.
+        RC4 encryption algorithm
         """
-        hashed_url_params = self.md5_str_to_array(
-            self.md5(self.md5_str_to_array(self.md5(url_params)))
-        )
-        return hashed_url_params
-
-    def md5(self, input_data):
-        """
-        Calculate the md5 hash value of the input data.
-        """
-        if isinstance(input_data, str):
-            array = self.md5_str_to_array(input_data)
-        elif isinstance(input_data, list):
-            array = input_data
-        else:
-            raise ValueError("Invalid input type. Expected str or list.")
-
-        md5_hash = hashlib.md5()
-        md5_hash.update(bytes(array))
-        return md5_hash.hexdigest()
-
-    def encoding_conversion(
-        self, a, b, c, e, d, t, f, r, n, o, i, _, x, u, s, l, v, h, p
-    ):
-        """
-        Perform encoding conversion.
-        """
-        y = [a]
-        y.append(int(i))
-        y.extend([b, _, c, x, e, u, d, s, t, l, f, v, r, h, n, p, o])
-        re = bytes(y).decode("ISO-8859-1")
-        return re
-
-    def encoding_conversion2(self, a, b, c):
-        """
-        Perform an encoding conversion on the given input values and return the result.
-        """
-        return chr(a) + chr(b) + c
-
-    def rc4_encrypt(self, key, data):
-        """
-        Encrypt data using the RC4 algorithm.
-        """
-        S = list(range(256))
+        s = list(range(256))
         j = 0
-        encrypted_data = bytearray()
+        result = ""
 
-        # Initialize the S box
+        # KSA (Key Scheduling Algorithm)
         for i in range(256):
-            j = (j + S[i] + key[i % len(key)]) % 256
-            S[i], S[j] = S[j], S[i]
+            j = (j + s[i] + ord(key[i % len(key)])) % 256
+            s[i], s[j] = s[j], s[i]
 
-        # Generate the ciphertext
+        # PRGA (Pseudo-Random Generation Algorithm)
         i = j = 0
-        for byte in data:
+        for char in data:
             i = (i + 1) % 256
-            j = (j + S[i]) % 256
-            S[i], S[j] = S[j], S[i]
-            encrypted_byte = byte ^ S[(S[i] + S[j]) % 256]
-            encrypted_data.append(encrypted_byte)
+            j = (j + s[i]) % 256
+            s[i], s[j] = s[j], s[i]
+            result += chr(ord(char) ^ s[(s[i] + s[j]) % 256] & 255)
 
-        return encrypted_data
+        return result
 
-    def calculation(self, a1, a2, a3):
+    @staticmethod
+    def VM231(text: str, base_index: str) -> str:
+        base_chars = TikTokXBogus.BASE_KEY[base_index]
+
+        result = ""
+        i = 0
+
+        while i + 3 <= len(text):
+            char1 = ord(text[i]) & 0xFF
+            i += 1
+            char2 = ord(text[i]) & 0xFF
+            i += 1
+            char3 = ord(text[i]) & 0xFF
+            i += 1
+
+            triplet = (char1 << 16) | (char2 << 8) | char3
+
+            result += base_chars[(triplet >> 18) & 0x3F]
+            result += base_chars[(triplet >> 12) & 0x3F]
+            result += base_chars[(triplet >> 6) & 0x3F]
+            result += base_chars[triplet & 0x3F]
+
+        if i < len(text):
+            char1 = ord(text[i]) & 0xFF
+            i += 1
+            remaining = (char1 << 16) | ((ord(text[i]) & 0xFF << 8) if i < len(text) else 0)
+
+            result += base_chars[(remaining >> 18) & 0x3F]
+            result += base_chars[(remaining >> 12) & 0x3F]
+
+            if i < len(text):
+                result += base_chars[(remaining >> 6) & 0x3F]
+            else:
+                result += "="
+            result += "="
+
+        return result
+
+    @staticmethod
+    def VM112(array: List[int]) -> str:
         """
-        Perform a calculation using bitwise operations on the given input values and return the result.
+        Convert an array of integers to a string using a specific encoding.
         """
-        x1 = (a1 & 255) << 16
-        x2 = (a2 & 255) << 8
-        x3 = x1 | x2 | a3
-        return (
-            self.character[(x3 & 16515072) >> 18]
-            + self.character[(x3 & 258048) >> 12]
-            + self.character[(x3 & 4032) >> 6]
-            + self.character[x3 & 63]
-        )
+        buffer = bytearray(19)
 
-    def getXBogus(self, url_params):
+        buffer[0] = array[0]
+        buffer[1] = array[10]
+        buffer[2] = array[1]
+        buffer[3] = array[11]
+        buffer[4] = array[2]
+        buffer[5] = array[12]
+        buffer[6] = array[3]
+        buffer[7] = array[13]
+        buffer[8] = array[4]
+        buffer[9] = array[14]
+        buffer[10] = array[5]
+        buffer[11] = array[15]
+        buffer[12] = array[6]
+        buffer[13] = array[16]
+        buffer[14] = array[7]
+        buffer[15] = array[17]
+        buffer[16] = array[8]
+        buffer[17] = array[18]
+        buffer[18] = array[9]
+
+        return ''.join(chr(b) for b in buffer)
+
+    @staticmethod
+    def VM108(arg0: int, arg1: int) -> str:
         """
-        Get the X-Bogus value.
+        Convert two integers to a string representation.
         """
+        buffer = bytearray(3)
 
-        array1 = self.md5_str_to_array(
-            self.md5(
-                base64.b64encode(
-                    self.rc4_encrypt(b"\x00\x01\x0c", self.user_agent.encode("ISO-8859-1"))
-                ).decode("ISO-8859-1")
-            )
-        )
+        buffer[0] = arg0 // 256
+        buffer[1] = arg0 % 256
+        buffer[2] = arg1 % 256
 
-        array2 = self.md5_str_to_array(
-            self.md5(self.md5_str_to_array("d41d8cd98f00b204e9800998ecf8427e"))
-        )
-        url_params_array = self.md5_encrypt(url_params)
+        return ''.join(chr(b) for b in buffer)
 
-        timer = int(time.time())
-        ct = 536919696
-        array3 = []
-        array4 = []
-        xb_ = ""
+    @staticmethod
+    def get_x_bogus(url: str = "", user_agent: str = "") -> str:
+        """
+        Signs the URL so it can be fetched normally.
+        The user agent given to this function MUST
+        be the same when performing the actual request.
 
-        new_array = [
-            64, 0.00390625, 1, 12,
-            url_params_array[14], url_params_array[15], array2[14], array2[15], array1[14], array1[15],
-            timer >> 24 & 255, timer >> 16 & 255, timer >> 8 & 255, timer & 255,
-            ct >> 24 & 255, ct >> 16 & 255, ct >> 8 & 255, ct & 255
+        Args:
+            url: The URL to sign
+            user_agent: The user agent to use
+
+        Returns:
+            A signed URL
+        """
+        init_hash = 'd41d8cd98f00b204e9800998ecf8427e'
+        query = url
+
+        def MD5(string: Union[str, bytes]) -> str:
+            if isinstance(string, str):
+                string = string.encode('utf-8')
+            return hashlib.md5(string).hexdigest()
+
+        hash1 = MD5(query)
+        decode1 = Kb.decode(hash1)
+        hash2 = MD5(decode1)
+        decode2 = Kb.decode(hash2)
+
+        init_hash_decoded = Kb.decode(init_hash)
+        hash_init_hash_decoded = MD5(init_hash_decoded)
+        decode_hash_init_hash_decoded = Kb.decode(hash_init_hash_decoded)
+
+        init_encryption_key = TikTokXBogus.VM108(1, 0)
+
+        encrypted_user_agent = TikTokXBogus.Ab24(init_encryption_key, user_agent)
+        encoded_encrypted_user_agent = TikTokXBogus.VM231(encrypted_user_agent, 's0')
+        hash_encoded_encrypted_user_agent = MD5(encoded_encrypted_user_agent)
+        decode_hash_encoded_encrypted_user_agent = Kb.decode(hash_encoded_encrypted_user_agent)
+
+        now = int(time.time())
+
+        values_array = [
+            64,
+            1 // 256,
+            1 % 256,
+            0,
+            decode2[14],
+            decode2[15],
+            decode_hash_init_hash_decoded[14],
+            decode_hash_init_hash_decoded[15],
+            decode_hash_encoded_encrypted_user_agent[14],
+            decode_hash_encoded_encrypted_user_agent[15],
+            (now >> 24) & 0xFF,
+            (now >> 16) & 0xFF,
+            (now >> 8) & 0xFF,
+            now & 0xFF,
+            (1508145731 >> 24) & 0xFF,
+            (1508145731 >> 16) & 0xFF,
+            (1508145731 >> 8) & 0xFF,
+            1508145731 & 0xFF
         ]
 
-        xor_result = new_array[0]
-        for i in range(1, len(new_array)):
-            b = new_array[i]
-            if isinstance(b, float):
-                b = int(b)
-            xor_result ^= b
+        key = 0
+        for val in values_array:
+            key ^= val
 
-        new_array.append(xor_result)
+        values_array2 = [
+            values_array[0],
+            values_array[2],
+            values_array[4],
+            values_array[6],
+            values_array[8],
+            values_array[10],
+            values_array[12],
+            values_array[14],
+            values_array[16],
+            key,
+            values_array[1],
+            values_array[3],
+            values_array[5],
+            values_array[7],
+            values_array[9],
+            values_array[11],
+            values_array[13],
+            values_array[15],
+            values_array[17],
+        ]
 
-        idx = 0
-        while idx < len(new_array):
-            array3.append(new_array[idx])
-            try:
-                array4.append(new_array[idx + 1])
-            except IndexError:
-                pass
-            idx += 2
+        str_val = TikTokXBogus.VM112(values_array2)
+        str_key = chr(255)
+        ans = TikTokXBogus.Ab24(str_key, str_val)
 
-        merge_array = array3 + array4
+        def VM110(arg0: int, arg1: int, arg2: str) -> str:
+            return chr(arg0) + chr(arg1) + arg2
 
-        garbled_code = self.encoding_conversion2(
-            2,
-            255,
-            self.rc4_encrypt(
-                "ÿ".encode("ISO-8859-1"),
-                self.encoding_conversion(*merge_array).encode("ISO-8859-1"),
-            ).decode("ISO-8859-1"),
-        )
-
-        idx = 0
-        while idx < len(garbled_code):
-            xb_ += self.calculation(
-                ord(garbled_code[idx]),
-                ord(garbled_code[idx + 1]),
-                ord(garbled_code[idx + 2]),
-            )
-            idx += 3
-        self.params = "%s&X-Bogus=%s" % (url_params, xb_)
-        self.xb = xb_
-        return (self.params, self.xb, self.user_agent)
+        return TikTokXBogus.VM231(VM110(2, 255, ans), "s2")
 
 if __name__ == "__main__":
     platform_type, device_type, browser_type = "Desktop", "Windows", "Chrome"
     user_agent = UserAgent(platform_type=platform_type, device_type=device_type, browser_type=browser_type)
     browser_info = Fingerprint.browser(browser_type=browser_type, user_agent=user_agent)
-    xb = XBogus(user_agent=user_agent)
+    xb = TikTokXBogus(user_agent=user_agent)
 
     dy_url_param_dict = {}
     dy_url_param_dict["device_platform"] = "webapp"
@@ -262,6 +295,6 @@ if __name__ == "__main__":
     tk_xbogus = xb.getXBogus(tiktok_params)
 
     print(json.dumps(dy_xbogus, indent=4))
-    print(f"url: {dy_xbogus[0]}, xbogus:{dy_xbogus[1]}, ua: {dy_xbogus[2]}")
+    print(f"url: {douying_params}, xbogus:{dy_xbogus}")
     print(json.dumps(dy_xbogus, indent=4))
-    print(f"url: {tk_xbogus[0]}, xbogus:{tk_xbogus[1]}, ua: {tk_xbogus[2]}")
+    print(f"url: {tiktok_params}, xbogus:{tk_xbogus}")

@@ -16,9 +16,8 @@ from downedit.utils import (
 )
 
 class YoutubeDL:
-    def __init__(self, output_folder: str):
+    def __init__(self, *args, **kwargs) -> None:
         self.yt_client = YoutubeClient()
-        self.output_folder = output_folder
 
     @httpx_capture_async
     @retry_async(
@@ -55,13 +54,19 @@ class YoutubeDL:
         response.raise_for_status()
         return response.json()
 
-    async def download_video(self, video_url: str, video_name: str = "starting..."):
+    async def download_video(
+        self,
+        video_url: str,
+        video_name: str = "starting...",
+        output_folder: str = "./"
+    ):
         """
         Downloads the video from the provided URL.
 
         Args:
             video_url (str): The URL of the video to download.
             video_name (str, optional): Defaults to "starting...".
+            output_folder (str, optional): The folder to save the downloaded video. Defaults to "./".
         """
         player_response = await self._get_player_response(video_url)
         if player_response is None:
@@ -81,7 +86,7 @@ class YoutubeDL:
                 file_url=video_stream[0].get("url", ""),
                 file_media=(
                     ResourceUtil.normalize_filename(
-                        folder_location=self.output_folder,
+                        folder_location=output_folder,
                         file_name=video_name,
                         file_extension=".mp4"
                     ),

@@ -5,7 +5,7 @@ class Perchance_API:
     # Perchance Domain
     PERCHANCE_DOMAIN: str = "https://perchance.org"
 
-    PERCHANCE_CC: str =  "https://perchanceai.cc"
+    PERCHANCE_CC: str = "https://perchanceai.cc"
 
     # Perchance API
     PERCHANCE_API: str = "https://image-generation.perchance.org"
@@ -48,7 +48,7 @@ class Pollinations_API:
     Contains the base API URL for Pollinations services.
     """
     DOMAIN: str = "https://image.pollinations.ai"
-    
+
     # Generate Image
     GENERATE_IMAGE = f"{DOMAIN}/prompt/"
 
@@ -66,7 +66,7 @@ class KauiShou_API:
     """
     Base API URL for Kuaishou services.
     """
-    KAUI_SHOU_DOMAIN: str  = "https://www.kuaishou.com"
+    KAUI_SHOU_DOMAIN: str = "https://www.kuaishou.com"
 
     DOMAIN: str = "https://live.kuaishou.com"
 
@@ -90,6 +90,7 @@ class KauiShou_API:
 
     VERYFY_CAPTCHA = "https://captcha.zt.kuaishou.com/rest/zt/captcha/sliding/kSecretApiVerify"
 
+
 class Tiktok_API:
     """
     Contains the base API URL for TikTok services.
@@ -99,6 +100,8 @@ class Tiktok_API:
 
     # Webcast Domain
     WEBCAST_DOMAIN: str = "https://webcast.tiktok.com"
+
+    REPORT = "https://mssdk-ttp2.tiktokw.us/web/report"
 
     # Login
     LOGIN_ENDPOINT = f"{TIKTOK_DOMAIN}/login/"
@@ -130,6 +133,13 @@ class Tiktok_API:
     POST_SEARCH = f"{TIKTOK_DOMAIN}/api/search/item/full/"
 
 
+class Douin_API:
+    DOUYIN_DOMAIN: str = "https://www.douyin.com"
+
+    # User Post
+    USER_POST = f"{DOUYIN_DOMAIN}/aweme/v1/web/aweme/post/"
+
+
 class Youtube_API:
     """
     Contains the base API URL for Youtube services.
@@ -159,5 +169,6 @@ class Domain:
     """
     AI_IMAGE = AI_Image_API()
     TIKTOK = Tiktok_API()
+    DOUYIN = Douin_API()
     KUAI_SHOU = KauiShou_API()
     YOUTUBE = Youtube_API()
