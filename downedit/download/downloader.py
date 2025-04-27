@@ -59,7 +59,7 @@ class Downloader:
             log.error(f"Failed to retrieve content length: {e}")
             return 0
 
-    async def _download_part(self, url: str, headers: dict, start: int, end: int, output_file: str):
+    async def _download_part(self, task_id, url: str, headers: dict, start: int, end: int, output_file: str):
         """
         Downloads a part of the file within the specified byte range.
         """
@@ -75,6 +75,10 @@ class Downloader:
                 await file.seek(start)
                 async for chunk in response.aiter_bytes():
                     await file.write(chunk)
+                    await self.task_progress.update_task(
+                        task_id,
+                        progress_increment=len(chunk)
+                    )
 
     async def _initialize_download_task(self, file_url: str, file_media: Any, service_step: tuple) -> tuple:
         """
@@ -138,25 +142,37 @@ class Downloader:
             )
 
         download_task = asyncio.create_task(
-            self._download_single_file(
+            self.download_file(
                 service_step=service_step,
                 task_id=task_id,
                 file_name=file_name,
                 file_url=file_url,
                 file_output=file_output,
-                content_length=content_length
-            )
-            if content_length < small_file_threshold
-            else self.download_file(
-                service_step=service_step,
-                task_id=task_id,
-                file_name=file_name,
-                file_url=file_url,
-                file_output=file_output,
-                num_parts=num_parts,
+                num_parts=2 if content_length < small_file_threshold else num_parts,
                 content_length=content_length
             )
         )
+
+        # download_task = asyncio.create_task(
+        #     self._download_single_file(
+        #         service_step=service_step,
+        #         task_id=task_id,
+        #         file_name=file_name,
+        #         file_url=file_url,
+        #         file_output=file_output,
+        #         content_length=content_length
+        #     )
+        #     if content_length < small_file_threshold
+        #     else self.download_file(
+        #         service_step=service_step,
+        #         task_id=task_id,
+        #         file_name=file_name,
+        #         file_url=file_url,
+        #         file_output=file_output,
+        #         num_parts=num_parts,
+        #         content_length=content_length
+        #     )
+        # )
         self.download_tasks.append(download_task)
 
     async def _download_single_file(
@@ -244,6 +260,7 @@ class Downloader:
             part_size = content_length // num_parts
             download_tasks = [
                 self._download_part(
+                    task_id,
                     file_url,
                     headers,
                     part * part_size,
@@ -256,10 +273,7 @@ class Downloader:
             try:
                 for task in asyncio.as_completed(download_tasks):
                     await task
-                    await self.task_progress.update_task(
-                        task_id,
-                        progress_increment=part_size
-                    )
+                    await self.task_progress.update_task(task_id)
             except Exception as e:
                 # log.error(f"Error during {working_step}: {e}")
                 return await self.task_progress.update_task(
