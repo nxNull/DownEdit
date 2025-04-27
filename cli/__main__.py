@@ -22,7 +22,7 @@ def display_banner():
     Display the banner of the application
     """
     banner_display = f"""
-    {Fore.MAGENTA}██████╗░███████╗{Back.RESET}  {Back.RED}{Fore.BLACK}sokunheng@GitHub - DownEdit v{DE_VERSION}{Fore.RESET}{Back.RESET}
+    {Fore.MAGENTA}██████╗░███████╗{Back.RESET}  {Back.RED}{Fore.BLACK}nxNull@GitHub - DownEdit v{DE_VERSION}{Fore.RESET}{Back.RESET}
     {Fore.MAGENTA}██╔══██╗██╔════╝{Back.RESET}  {Fore.WHITE}----------------------------------{Back.RESET}
     {Fore.MAGENTA}██║░░██║█████╗░░{Back.RESET}  {Fore.WHITE}OS : {Fore.YELLOW}{pc_info["OS"]}, {pc_info["USER"]}{Fore.RESET}
     {Fore.MAGENTA}██║░░██║██╔══╝░░{Back.RESET}  {Fore.WHITE}CPU: {Fore.YELLOW}{pc_info["CPU"]}{Fore.RESET}
@@ -58,15 +58,15 @@ def display_menu():
     )
 
 def run():
-    while True:
-        selector.running = True
-        try:
+    # while True:
+    #     selector.running = True
+    #     try:
             display_menu()
-        except Exception as e:
-            log.error(str(e)[:80])
-            log.pause()
-        except KeyboardInterrupt:
-            log.debug("Skipping the process..")
+        # except Exception as e:
+        #     log.error(str(e)[:80])
+        #     log.pause()
+        # except KeyboardInterrupt:
+        #     log.debug("Skipping the process..")
 
 if __name__ == "__main__":
     run()
