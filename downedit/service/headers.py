@@ -1,4 +1,3 @@
-from downedit.utils import Singleton
 from .user_agents import UserAgent
 from .client_hints import ClientHints
 

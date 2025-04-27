@@ -1,3 +1,4 @@
+import re
 import ssl
 import json
 import random
@@ -92,6 +93,22 @@ class Fingerprint:
         platform["Firefox"] = "Win32"
         platform["Safari"] = "MacIntel"
 
+        browser_patterns = {}
+        browser_patterns["Chrome"]= r"Chrome/([\d\.]+)"
+        browser_patterns["Edge"]= r"Edg/([\d\.]+)"
+        browser_patterns["Firefox"]= r"Firefox/([\d\.]+)"
+        browser_patterns["Safari"]= r"Version/([\d\.]+)"
+        browser_version_pattern = browser_patterns.get(browser_type)
+
+        os_patterns = [
+            ("Windows NT (\d+\.\d+)", "Windows", {"10.0": "10", "6.3": "8.1", "6.2": "8"}),
+            ("Mac OS X ([\d_\.]+)", "Mac OS", None),
+            ("Android (\d+[\.\d]*)", "Android", None),
+            ("(?:iPhone OS|CPU OS) (\d+_\d+)", "iOS", None),
+            ("Linux", "Linux", None),
+        ]
+        os_name, os_version, device_type = "Unknown", "Unknown", "PC"
+
         inner_width = random.randint(1024, 1920)
         inner_height = random.randint(768, 1080)
         outer_width = inner_width + random.randint(24, 32)
@@ -101,6 +118,30 @@ class Fingerprint:
         avail_width = random.randint(1280, 1920)
         avail_height = random.randint(800, 1080)
 
+        default_user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " \
+                                "AppleWebKit/537.36 (KHTML, like Gecko) " \
+                                "Chrome/131.0.0.0 Safari/537.36"
+        user_agent = user_agent or default_user_agent
+
+        if browser_version_pattern:
+            match = re.search(browser_version_pattern, user_agent)
+            browserVersion = match.group(1) if match else "unknown"
+        else:
+            browserVersion = "unknown"
+
+        for pattern, name, version_map in os_patterns:
+            match = re.search(pattern, user_agent)
+            if match:
+                os_name = name
+                if version_map:
+                    os_version = version_map.get(match.group(1), match.group(1))
+                else:
+                    os_version = match.group(1).replace("_", ".") if len(match.groups()) else ""
+                break
+
+        if any(mobile in user_agent.lower() for mobile in ["android", "iphone", "ipad", "mobile"]):
+            device_type = "Mobile"
+
         fingerprint = {}
         fingerprint["language"] = random.choice(cls.LANGUAGES)
         fingerprint["colorDepth"] = 24
@@ -109,14 +150,16 @@ class Fingerprint:
         fingerprint["availableScreenResolution"] = f"{avail_width}x{avail_height}"
         fingerprint["timezone"] = random.choice(cls.TIMEZONES)
         fingerprint["platform"] = platform.get(browser_type, "Win32")
-        fingerprint["userAgent"] = user_agent or f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+        fingerprint["userAgent"] = user_agent
+        fingerprint["browserName"] = browser_type
+        fingerprint["browserVersion"] = browserVersion
         fingerprint["doNotTrack"] = random.choice(["1", "0"])
         fingerprint["canvasFingerprint"] = cls.generate_canvas_fingerprint()
         fingerprint["webGLFingerprint"] = cls.generate_webgl_fingerprint()
         fingerprint["audioFingerprint"] = cls.generate_audio_fingerprint()
         fingerprint["fonts"] = cls.generate_fonts()
         fingerprint["plugins"] = cls.generate_plugins()
-        fingerprint["hardwareConcurrency"] = random.randint(2, 16)
+        fingerprint["hardwareConcurrency"] = random.choice([4, 6, 8, 16, 20, 24])
         fingerprint["deviceMemory"] = random.choice([2, 4, 8, 16, 32])
         fingerprint["cpuClass"] = cls.generate_cpu_class()
         fingerprint["navigatorPluginsLength"] = random.randint(0, 10)
@@ -131,6 +174,10 @@ class Fingerprint:
         fingerprint["availLeft"] = screen_x
         fingerprint["outerWidth"] = outer_width
         fingerprint["outerHeight"] = outer_height
+        fingerprint["osName"] = os_name
+        fingerprint["osVersion"] = os_version
+        fingerprint["deviceType"] = device_type
+
         return fingerprint
 
     @staticmethod
