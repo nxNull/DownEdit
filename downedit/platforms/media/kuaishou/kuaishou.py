@@ -143,6 +143,7 @@ class KuaiShou:
         )
         task_id = await self.task_progress.add_task(
             description="Getting videos",
+            file_name=extract_user_id(user_id),
             total_units=100,
             units_done=0,
             start=True,

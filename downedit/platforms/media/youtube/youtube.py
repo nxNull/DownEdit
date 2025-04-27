@@ -93,6 +93,7 @@ class Youtube:
 
         task_id = await self.task_progress.add_task(
             description="Getting videos",
+            file_name=extract_channel_handle(channel_url),
             total_units=100,
             units_done=0,
             start=True,

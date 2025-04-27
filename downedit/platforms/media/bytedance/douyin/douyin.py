@@ -134,6 +134,7 @@ class Douyin:
 
         task_id = await self.task_progress.add_task(
             description="Getting videos",
+            file_name=extract_username(user_url),
             total_units=100,
             units_done=0,
             start=True,
