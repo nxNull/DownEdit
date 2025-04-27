@@ -5,6 +5,7 @@ from downedit.service import Client
 from downedit.platforms.ai_image.base import BaseAIGen
 from downedit.platforms.ai_image.providers import (
     AIGG,
+    Perchance,
     PerchanceCC,
     Pollinations
 )
