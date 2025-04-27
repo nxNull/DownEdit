@@ -58,15 +58,15 @@ def display_menu():
     )
 
 def run():
-    # while True:
-    #     selector.running = True
-    #     try:
+    while True:
+        selector.running = True
+        try:
             display_menu()
-        # except Exception as e:
-        #     log.error(str(e)[:80])
-        #     log.pause()
-        # except KeyboardInterrupt:
-        #     log.debug("Skipping the process..")
+        except Exception as e:
+            log.error(str(e)[:80])
+            log.pause()
+        except KeyboardInterrupt:
+            log.debug("Skipping the process..")
 
 if __name__ == "__main__":
     run()
