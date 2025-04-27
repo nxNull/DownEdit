@@ -24,11 +24,12 @@ def main():
         }
     )
 
-    youtube = Youtube(
-        channel=channel,
+    youtube = Youtube()
+    youtube.download_all_videos(
+        channel_url=channel,
         video_type=video_type.lower().lstrip()
     )
-    youtube.download_all_videos()
+
 
 if __name__ == "__main__":
     main()

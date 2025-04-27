@@ -1,7 +1,7 @@
 from colorama import Fore
 
 from cli.menu._banners import get_banner
-from downedit.platforms import KuaiShou
+from downedit.platforms import Douyin
 from downedit.utils import (
     log,
     selector
@@ -9,14 +9,14 @@ from downedit.utils import (
 
 
 def main():
-    banner_display, banner_msg = get_banner("KUAISHOU_DL")
+    banner_display, banner_msg = get_banner("DOUYIN_DL")
     selector.display_banner(
         banner_display,
         banner_msg
     )
 
-    cookies = input(f"{Fore.YELLOW}Enter User Cookies:{Fore.WHITE} ")
-    if not cookies:
+    cookie = input(f"{Fore.YELLOW}Enter User Cookies:{Fore.WHITE} ")
+    if not cookie:
         log.critical("Please Enter Cookies!")
         return
 
@@ -25,8 +25,8 @@ def main():
         log.critical("Please Enter User Url!")
         return
 
-    kuaishou = KuaiShou(cookies=cookies.strip())
-    kuaishou.download_all_videos(
+    douyin = Douyin(cookies=cookie.strip())
+    douyin.download_all_videos(
         user=user_link
     )
 
