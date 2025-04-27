@@ -98,7 +98,7 @@ class Douyin:
 
         return url_list[0], video_title
 
-    async def _process_item_list(self, item_list):
+    def _process_item_list(self, item_list):
         """
         Process and download videos from a batch of feed items.
         """
@@ -144,7 +144,7 @@ class Douyin:
             has_more = user_feed.get("has_more", 0) == 1
             max_cursor = user_feed.get("max_cursor", max_cursor)
 
-            await self._process_item_list(item_list)
+            self._process_item_list(item_list)
 
         await self.download_multiple(
             video_list=self.video_list,

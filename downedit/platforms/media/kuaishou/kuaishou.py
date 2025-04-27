@@ -106,7 +106,7 @@ class KuaiShou:
 
         return video_url, video_title
 
-    async def _process_item_list(self, data):
+    def _process_item_list(self, data):
         """
         Process and download videos from a batch of feed items.
         """
@@ -152,7 +152,7 @@ class KuaiShou:
             pcursor = visionProfilePhotoList.get("pcursor", "")
             has_more = visionProfilePhotoList.get("result", 0) == 1 or pcursor == "no_more"
 
-            await self._process_item_list(visionProfilePhotoList)
+            self._process_item_list(visionProfilePhotoList)
 
         await self.download_multiple(
             video_list=self.video_list,

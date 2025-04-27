@@ -113,7 +113,7 @@ class Tiktok:
 
         return video_url, video_title
 
-    async def _process_item_list(self, item_list):
+    def _process_item_list(self, item_list):
         """
         Process and download videos from a batch of feed items.
         """
@@ -159,7 +159,7 @@ class Tiktok:
             has_more = user_feed.get("hasMore", False)
             cursor = user_feed.get("cursor", cursor)
 
-            await self._process_item_list(item_list)
+            self._process_item_list(item_list)
 
         await self.download_multiple(
             video_list=self.video_list,

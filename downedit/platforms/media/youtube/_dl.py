@@ -1,23 +1,42 @@
-import traceback
 import httpx
-
 from typing import Optional, Dict
+
 
 from downedit.service import httpx_capture_async, retry_async
 from downedit.platforms import Domain
 from downedit.platforms.media.youtube.client import YoutubeClient
 from downedit.download import Downloader
 from downedit.service import (
-    Client
+    Client,
+    ClientHints,
+    UserAgent,
+    Headers
 )
 from downedit.utils import (
     ResourceUtil,
+    Observer,
     log
 )
 
+
 class YoutubeDL:
     def __init__(self, *args, **kwargs) -> None:
+        self.user_agent = UserAgent(
+            platform_type="desktop",
+            device_type="windows",
+            browser_type="chrome"
+        )
+        self.client_hints = ClientHints(self.user_agent)
+        self.headers = Headers(self.user_agent, self.client_hints)
+        self.headers.accept_ch("""
+            sec-ch-ua,
+            sec-ch-ua-platform,
+            sec-ch-ua-mobile,
+        """)
+        self.default_client = Client(headers=self.headers.get())
+        self.client: Client = kwargs.get("client", self.default_client)
         self.yt_client = YoutubeClient()
+        self.observer = Observer()
 
     @httpx_capture_async
     @retry_async(
@@ -53,6 +72,41 @@ class YoutubeDL:
 
         response.raise_for_status()
         return response.json()
+
+    async def _get_video_response(self, video_id: str) -> tuple[Optional[str], Optional[str]]:
+        """
+        Get the video response for the given video ID.
+
+        Returns:
+            A tuple containing:
+                - The URL of the highest quality video (str or None).
+                - The URL of the M4A audio stream (str or None).
+        """
+        async with self.client.semaphore:
+            response = await self.client.aclient.post(
+                url="https://www.clipto.com/api/youtube",
+                json={"url": F"https://www.youtube.com/watch?v={video_id}"},
+                timeout=10,
+                follow_redirects=True,
+            )
+            response.raise_for_status()
+
+        data = response.json()
+        medias = data.get("medias")
+        if not medias: return None, None
+
+        best_video = max(
+            (m for m in medias if m["type"] == "video" and m["ext"] == "mp4"),
+            key=lambda m: m.get("height", -1),
+            default=None
+        )
+        best_audio = max(
+            (m for m in medias if m["type"] == "audio" and m["ext"] == "m4a"),
+            key=lambda m: m.get("bitrate", -1),
+            default=None
+        )
+
+        return best_video and best_video.get("url"), best_audio and best_audio.get("url")
 
     async def download_video(
         self,
@@ -94,4 +148,51 @@ class YoutubeDL:
                 )
             )
             await downloader.execute()
+            await downloader.close()
+
+    async def download_multiple_videos(
+        self,
+        video_list: list[dict[str, str]],
+        output_folder: str
+    ):
+        """
+        Downloads multiple videos from the provided URL list.
+
+        Args:
+            video_list (list[dict[str, str]]): The list of video URLs to download.
+            output_folder (str): The folder to save the downloaded videos.
+        """
+        self.observer.register_termination_handlers()
+        client = Client(headers=self.headers.get())
+
+        async with Downloader(client) as downloader:
+            for video in video_list:
+                if self.observer.is_termination_signaled():
+                    break
+
+                video_url = await self._get_video_response(
+                    video.get("video_id")
+                )
+                if not video_url[0]: continue
+
+                file_paths = []
+                for index, url in enumerate(video_url):
+                    file_extension = ".mp4" if index == 0 else ".mp3"
+                    file_name = f"{video.get('video_title')} part_{index}{file_extension}"
+                    file_output = ResourceUtil.normalize_filename(
+                        folder_location=output_folder,
+                        file_name=str(video.get("video_title")) + f" part_{index}",
+                        file_extension=file_extension
+                    )
+                    file_paths.append(file_output)
+
+                    await downloader.add_file(
+                        file_url=url,
+                        file_media=(
+                            file_output,
+                            file_name
+                        )
+                    )
+                    await downloader.execute()
+
             await downloader.close()
