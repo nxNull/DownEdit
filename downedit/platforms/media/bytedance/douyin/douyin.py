@@ -12,6 +12,8 @@ from downedit.service import (
     Headers
 )
 from downedit.utils import (
+    console,
+    column,
     ResourceUtil,
     Observer,
     log
@@ -44,6 +46,9 @@ class Douyin:
         )
 
         self.observer = Observer()
+        self.task_progress = console().progress_bar(
+            column_config=column().edit()
+        )
         self._output_folder = self._get_output_folder()
         self.video_list: list[list[dict[str, str]]] = []
 
@@ -126,25 +131,48 @@ class Douyin:
             folder_root=self._output_folder,
             directory_name=extract_username(user_url)
         )
-        max_cursor, count, has_more = 0, 18, True
 
-        while has_more:
-            user_feed = await self.douyin_crawler.fetch_user_post(
-                sec_uid=extract_username(user_url),
-                max_cursor=max_cursor,
-                count=count,
+        task_id = await self.task_progress.add_task(
+            description="Getting videos",
+            total_units=100,
+            units_done=0,
+            start=True,
+            current_state="idle",
+        )
+
+        with self.task_progress:
+            await self.task_progress.update_task(
+                task_id,
+                new_state="starting",
+                force_refresh=True
             )
 
-            if not user_feed: break
+            max_cursor, count, has_more = 0, 18, True
 
-            item_list = user_feed.get("aweme_list") or []
-            if not item_list:
-                break
+            while has_more:
+                user_feed = await self.douyin_crawler.fetch_user_post(
+                    sec_uid=extract_username(user_url),
+                    max_cursor=max_cursor,
+                    count=count,
+                )
 
-            has_more = user_feed.get("has_more", 0) == 1
-            max_cursor = user_feed.get("max_cursor", max_cursor)
+                if not user_feed: break
 
-            self._process_item_list(item_list)
+                item_list = user_feed.get("aweme_list") or []
+                if not item_list:
+                    break
+
+                has_more = user_feed.get("has_more", 0) == 1
+                max_cursor = user_feed.get("max_cursor", max_cursor)
+
+                self._process_item_list(item_list)
+
+            await self.task_progress.update_task(
+                task_id=task_id,
+                new_completed=100,
+                new_description="Done",
+                new_state="success"
+            )
 
         await self.download_multiple(
             video_list=self.video_list,

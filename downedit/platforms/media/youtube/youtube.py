@@ -5,6 +5,8 @@ from downedit.platforms.media.youtube._dl import YoutubeDL
 from downedit.platforms.media.youtube.crawler import YouTubeCrawler
 from downedit.platforms.media.youtube.extractor import extract_channel_handle
 from downedit.utils import (
+    console,
+    column,
     ResourceUtil,
     Observer,
     log
@@ -17,6 +19,9 @@ class Youtube:
         self.youtube_dl = YoutubeDL()
 
         self.observer = Observer()
+        self.task_progress = console().progress_bar(
+            column_config=column().edit()
+        )
         self._output_folder = self._get_output_folder()
         self.video_list: list[dict[str, str]] = []
 
@@ -86,14 +91,36 @@ class Youtube:
             directory_name=extract_channel_handle(channel_url)
         )
 
-        async for video in self.youtube_crawler.aget_channel(
-            channel_url=channel_url,
-            content_type=video_type
-        ):
-            if self.observer.is_termination_signaled():
-                    break
+        task_id = await self.task_progress.add_task(
+            description="Getting videos",
+            total_units=100,
+            units_done=0,
+            start=True,
+            current_state="idle",
+        )
 
-            self._process_item_list(video)
+        with self.task_progress:
+            await self.task_progress.update_task(
+                task_id,
+                new_state="starting",
+                force_refresh=True
+            )
+
+            async for video in self.youtube_crawler.aget_channel(
+                channel_url=channel_url,
+                content_type=video_type
+            ):
+                if self.observer.is_termination_signaled():
+                        break
+
+                self._process_item_list(video)
+
+            await self.task_progress.update_task(
+                task_id=task_id,
+                new_completed=100,
+                new_description="Done",
+                new_state="success"
+            )
 
         await self.download_multiple(
             video_list=self.video_list,

@@ -12,6 +12,8 @@ from downedit.service import (
     Headers
 )
 from downedit.utils import (
+    console,
+    column,
     ResourceUtil,
     Observer,
     log
@@ -50,6 +52,9 @@ class Tiktok:
         )
 
         self.observer = Observer()
+        self.task_progress = console().progress_bar(
+            column_config=column().edit()
+        )
         self._output_folder = self._get_output_folder()
         self.video_list: list[list[dict[str, str]]] = []
 
@@ -141,25 +146,47 @@ class Tiktok:
             folder_root=self._output_folder,
             directory_name=extract_username(username)
         )
-        cursor, count, has_more = 0, 35, True
+        task_id = await self.task_progress.add_task(
+            description="Getting videos",
+            total_units=100,
+            units_done=0,
+            start=True,
+            current_state="idle",
+        )
 
-        while has_more:
-            user_feed = await self.tiktok_crawler.fetch_user_post(
-                user_url=username,
-                cursor=cursor,
-                count=count,
+        with self.task_progress:
+            await self.task_progress.update_task(
+                task_id,
+                new_state="starting",
+                force_refresh=True
             )
 
-            if not user_feed: break
+            cursor, count, has_more = 0, 35, True
 
-            item_list = user_feed.get("itemList") or []
-            if not item_list:
-                break
+            while has_more:
+                user_feed = await self.tiktok_crawler.fetch_user_post(
+                    user_url=username,
+                    cursor=cursor,
+                    count=count,
+                )
 
-            has_more = user_feed.get("hasMore", False)
-            cursor = user_feed.get("cursor", cursor)
+                if not user_feed: break
 
-            self._process_item_list(item_list)
+                item_list = user_feed.get("itemList") or []
+                if not item_list:
+                    break
+
+                has_more = user_feed.get("hasMore", False)
+                cursor = user_feed.get("cursor", cursor)
+
+                self._process_item_list(item_list)
+
+            await self.task_progress.update_task(
+                task_id=task_id,
+                new_completed=100,
+                new_description="Done",
+                new_state="success"
+            )
 
         await self.download_multiple(
             video_list=self.video_list,

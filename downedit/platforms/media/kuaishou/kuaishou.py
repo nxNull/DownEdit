@@ -15,6 +15,8 @@ from downedit.service import (
     Headers
 )
 from downedit.utils import (
+    console,
+    column,
     ResourceUtil,
     Observer,
     log
@@ -45,6 +47,9 @@ class KuaiShou:
         )
 
         self.observer = Observer()
+        self.task_progress = console().progress_bar(
+            column_config=column().edit()
+        )
         self._output_folder = self._get_output_folder()
         self.video_list: list[list[dict[str, str]]] = []
 
@@ -136,23 +141,45 @@ class KuaiShou:
             folder_root=self._output_folder,
             directory_name=extract_user_id(user_id)
         )
-        pcursor, count, has_more = "", 18, True
+        task_id = await self.task_progress.add_task(
+            description="Getting videos",
+            total_units=100,
+            units_done=0,
+            start=True,
+            current_state="idle",
+        )
 
-        while has_more:
-            user_feed = await self.kuaishou_crawler.fetch_user_feed_videos(
-                principalId=extract_user_id(user_id),
-                pcursor=pcursor,
-                count=count,
+        with self.task_progress:
+            await self.task_progress.update_task(
+                task_id,
+                new_state="starting",
+                force_refresh=True
             )
 
-            if not user_feed: break
+            pcursor, count, has_more = "", 18, True
 
-            visionProfilePhotoList = user_feed.get("data", {}).get("visionProfilePhotoList", {})
+            while has_more:
+                user_feed = await self.kuaishou_crawler.fetch_user_feed_videos(
+                    principalId=extract_user_id(user_id),
+                    pcursor=pcursor,
+                    count=count,
+                )
 
-            pcursor = visionProfilePhotoList.get("pcursor", "")
-            has_more = visionProfilePhotoList.get("result", 0) == 1 or pcursor == "no_more"
+                if not user_feed: break
 
-            self._process_item_list(visionProfilePhotoList)
+                visionProfilePhotoList = user_feed.get("data", {}).get("visionProfilePhotoList", {})
+
+                pcursor = visionProfilePhotoList.get("pcursor", "")
+                has_more = visionProfilePhotoList.get("result", 0) == 1 or pcursor == "no_more"
+
+                self._process_item_list(visionProfilePhotoList)
+
+            await self.task_progress.update_task(
+                task_id=task_id,
+                new_completed=100,
+                new_description="Done",
+                new_state="success"
+            )
 
         await self.download_multiple(
             video_list=self.video_list,
