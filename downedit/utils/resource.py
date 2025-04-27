@@ -1,4 +1,5 @@
 import re
+import unicodedata
 import uuid
 
 from typing import Union, Generator, Optional
@@ -225,7 +226,9 @@ class ResourceUtil:
         Returns:
             str: The normalized filename with a path.
         """
-        cleaned_name = re.sub(r'["*<>?\\|/:]', '', file_name).strip()
+        cleaned_name = unicodedata.normalize('NFKD', file_name)
+        cleaned_name = re.sub(r'[<>:"/\\|?*\x00-\x1F]', '_', cleaned_name)
+        cleaned_name = re.sub(r'_+', '_', cleaned_name).strip()
         if not cleaned_name: cleaned_name = str(uuid.uuid4())
 
         dir_path = Path(folder_location) / (cleaned_name + file_extension)
