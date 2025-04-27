@@ -30,9 +30,9 @@
 
 | Website| Provider| Single Video | User's Videos | Stream | Access | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| [tiktok.com](https://www.tiktok.com/) | `None` | ✔️ | ✔️ | ❌ | API (Cookie) | ![Inactive](https://img.shields.io/badge/Inactive-red) |
-| [douyin.com](https://www.douyin.com/) | `None` | ✔️ | ✔️ | ❌ | API (Cookie) | ![Inactive](https://img.shields.io/badge/Inactive-red) |
-| [kuaishou.com](https://www.kuaishou.com/?isHome=1) | `None` | ✔️ | ✔️ | ❌ | Login Required (Cookie) | ![Active](https://img.shields.io/badge/Active-brightgreen) |
+| [tiktok.com](https://www.tiktok.com/) | `None` | ✔️ | ✔️ | ❌ | API (Cookie) | ![Active](https://img.shields.io/badge/Active-brightgreen) |
+| [douyin.com](https://www.douyin.com/) | `None` | ✔️ | ✔️ | ❌ | API (Cookie) | ![Active](https://img.shields.io/badge/Active-brightgreen) |
+| [kuaishou.com](https://www.kuaishou.com/?isHome=1) | `None` | ✔️ | ✔️ | ❌ | API (Cookie) | ![Active](https://img.shields.io/badge/Active-brightgreen) |
 | [youtube.com](https://www.youtube.com) | `None` | ✔️ | ✔️ | ❌ | (Public/Private) | ![Active](https://img.shields.io/badge/Active-brightgreen) |
 
 ## 🤖 AI
