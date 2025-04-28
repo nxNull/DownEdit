@@ -19,6 +19,7 @@
 </p>
 
 ## 🔥 Current Features
+- `ChatDE`: AI assistant for bulk downloading, editing, and generating videos, images, and sounds
 - `Edit Video`: Enhance videos with various functions designed to streamline editing tasks across entire directories.
 - `Edit Photo`: Quickly enhance images in bulk with various functions, including AI-powered functions,
 - `Edit Sound`: Improve audio in bulk using powerful functions, including cutting-edge AI-powered tools.
@@ -84,7 +85,7 @@ Enter Music: music_name.mp3
 </details>
 
 
-- **`Download douyin videos`** - Download all video from user by input user link.
+- **`Download douyin videos`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/douyin.md)
 
 <details>
 <summary>Tutorial</summary>
@@ -96,19 +97,19 @@ Enter User Link: https://www.douyin.com/user/MS4wLjABAAAAzknqQznbR4gNJFBtYQE8ptA
 
 </details>
 
-- **`Download tiktok videos`** - Download all video from user by input username with @.
+- **`Download tiktok videos`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/tiktok.md)
 
 <details>
 <summary>Tutorial</summary>
 
 ```html
-Enter User: @tiktok
+Enter User: https://www.tiktok.com/@tiktok
 ```
 <img src="https://user-images.githubusercontent.com/44894784/200826983-a45fc5d0-343a-4921-9077-6f97ebca67a8.gif" alt="animated"  width="640"/>
 
 </details>
 
-- **`Download kuaishou videos`** - Remember to input your own **Cookie**. Otherwise it won't work.
+- **`Download kuaishou videos`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/kuaishou.md)
 
 <details>
 <summary>Tutorial</summary>
