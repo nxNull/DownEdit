@@ -193,6 +193,6 @@ class YoutubeDL:
                             file_name
                         )
                     )
-                    await downloader.execute()
+                await downloader.execute()
 
             await downloader.close()
