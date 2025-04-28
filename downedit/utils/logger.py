@@ -1,5 +1,6 @@
 import datetime
 import logging
+import os
 import time
 
 from rich.logging import RichHandler
@@ -64,6 +65,21 @@ class Logger(logging.Logger, metaclass=Singleton):
             )
             console_handler.setFormatter(Formatter())
             self.addHandler(console_handler)
+
+            log_dir = "logs"
+            os.makedirs(log_dir, exist_ok=True)
+            date_str = datetime.datetime.now().strftime("%Y%m%d")
+            filename = os.path.join(log_dir, f"{date_str}-activity.log")
+
+            file_handler = logging.FileHandler(filename, encoding="utf-8")
+            file_formatter = logging.Formatter(
+                fmt="{asctime} [{levelname}] -- {message}",
+                style="{",
+                datefmt="%Y-%m-%d %H:%M:%S",
+            )
+            file_handler.setFormatter(file_formatter)
+            file_handler.setLevel(log_level)
+            self.addHandler(file_handler)
 
     def pause(self):
         current_time = datetime.datetime.now().strftime("%H:%M:%S")
