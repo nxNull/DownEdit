@@ -48,7 +48,7 @@ class KuaiShou:
 
         self.observer = Observer()
         self.task_progress = console().progress_bar(
-            column_config=column().edit()
+            column_config=column().wait()
         )
         self._output_folder = self._get_output_folder()
         self.video_list: list[list[dict[str, str]]] = []
