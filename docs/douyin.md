@@ -22,6 +22,11 @@ You need your browser cookies for `douyin.com` to authenticate.
     - Type `document.cookie` and press Enter.
     - Copy the entire output string.
 
+*   **See the picture below:**
+
+![douyin_cookie](https://github.com/user-attachments/assets/ca0d7068-ea8e-4e99-ab08-31d0cd109ccc)
+
+
 **Then:** Paste the copied cookie string into the tool's input field.
 
 **Example:**

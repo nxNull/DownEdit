@@ -20,8 +20,13 @@ You need your browser cookies for `tiktok.com` to authenticate.
     - Go to `tiktok.com`.
     - Open Developer Tools (`F12` or Right-click -> Inspect).
     - Go to the `Console` tab.
-    - Type `document.cookie` and press Enter.
+    - Type`document.cookie` and press Enter.
     - Copy the entire output string.
+
+*   **See the picture below:**
+
+![tiktok_cookie](https://github.com/user-attachments/assets/86753814-b3e7-4468-99ad-ad4f730ced60)
+
 
 **Then:** Paste the copied cookie string into the tool's input field.
 
