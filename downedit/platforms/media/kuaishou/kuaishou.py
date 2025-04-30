@@ -178,7 +178,7 @@ class KuaiShou:
             await self.task_progress.update_task(
                 task_id=task_id,
                 new_completed=100,
-                new_description="Done",
+                new_description="Finished",
                 new_state="success"
             )
 

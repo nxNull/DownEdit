@@ -169,7 +169,7 @@ class Douyin:
 
             await self.task_progress.update_task(
                 task_id=task_id,
-                new_description="Done",
+                new_description="Finished",
                 new_state="success"
             )
 
