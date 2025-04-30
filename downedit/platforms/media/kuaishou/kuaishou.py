@@ -144,8 +144,7 @@ class KuaiShou:
         task_id = await self.task_progress.add_task(
             description="Getting videos",
             file_name=extract_user_id(user_id),
-            total_units=100,
-            units_done=0,
+            total_units=None,
             start=True,
             current_state="idle",
         )
@@ -177,7 +176,6 @@ class KuaiShou:
 
             await self.task_progress.update_task(
                 task_id=task_id,
-                new_completed=100,
                 new_description="Finished",
                 new_state="success"
             )
