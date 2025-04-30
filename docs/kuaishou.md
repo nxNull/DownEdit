@@ -21,6 +21,10 @@ You need your browser cookies for `kuaishou.com` to authenticate.
     - Type `document.cookie` and press Enter.
     - Copy the entire output string.
 
+*   **See the picture below:**
+
+![kauishou_cookie](https://github.com/user-attachments/assets/04cf7ae7-7547-4163-8519-f6480d3e561f)
+
 **Then:** Paste the copied cookie string into the tool's input field.
 
 **Example:**
