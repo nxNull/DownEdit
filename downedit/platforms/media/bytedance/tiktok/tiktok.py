@@ -32,14 +32,8 @@ class Tiktok:
         self.headers = Headers(self.user_agent, self.client_hints)
         self.headers.accept_ch("""
             sec-ch-ua,
-            sec-ch-ua-full-version-list,
             sec-ch-ua-platform,
-            sec-ch-ua-platform-version,
             sec-ch-ua-mobile,
-            sec-ch-ua-bitness,
-            sec-ch-ua-arch,
-            sec-ch-ua-model,
-            sec-ch-ua-wow64
         """)
         self.default_client = Client(headers=self.headers.get())
         self.cookies = kwargs.get("cookies", "")
@@ -53,7 +47,7 @@ class Tiktok:
 
         self.observer = Observer()
         self.task_progress = console().progress_bar(
-            column_config=column().edit()
+            column_config=column().wait()
         )
         self._output_folder = self._get_output_folder()
         self.video_list: list[list[dict[str, str]]] = []
@@ -149,8 +143,7 @@ class Tiktok:
         task_id = await self.task_progress.add_task(
             description="Getting videos",
             file_name=extract_username(username),
-            total_units=100,
-            units_done=0,
+            total_units=None,
             start=True,
             current_state="idle",
         )
@@ -184,7 +177,6 @@ class Tiktok:
 
             await self.task_progress.update_task(
                 task_id=task_id,
-                new_completed=100,
                 new_description="Done",
                 new_state="success"
             )

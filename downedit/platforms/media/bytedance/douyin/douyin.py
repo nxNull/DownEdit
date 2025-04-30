@@ -47,7 +47,7 @@ class Douyin:
 
         self.observer = Observer()
         self.task_progress = console().progress_bar(
-            column_config=column().edit()
+            column_config=column().wait()
         )
         self._output_folder = self._get_output_folder()
         self.video_list: list[list[dict[str, str]]] = []
@@ -135,8 +135,7 @@ class Douyin:
         task_id = await self.task_progress.add_task(
             description="Getting videos",
             file_name=extract_username(user_url),
-            total_units=100,
-            units_done=0,
+            total_units=None,
             start=True,
             current_state="idle",
         )
@@ -170,7 +169,6 @@ class Douyin:
 
             await self.task_progress.update_task(
                 task_id=task_id,
-                new_completed=100,
                 new_description="Done",
                 new_state="success"
             )
