@@ -90,6 +90,7 @@ class DouyinCrawler:
         async with self.client.semaphore:
             response = await self.client.aclient.get(
                 url=f"{Domain.DOUYIN.USER_POST}?{param_string}",
+                headers=self.client.headers,
                 timeout=5,
                 follow_redirects=True,
             )

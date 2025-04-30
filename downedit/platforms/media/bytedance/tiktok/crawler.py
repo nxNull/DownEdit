@@ -1,3 +1,4 @@
+import httpx
 from typing import Any
 from urllib.parse import quote, urlencode
 
@@ -68,6 +69,19 @@ class TiktokCrawler:
             response.raise_for_status()
             return extract_secuid(response.text)
 
+    @httpx_capture_async
+    @retry_async(
+        num_retries=3,
+        delay=1,
+        exceptions=(
+            httpx.TimeoutException,
+            httpx.NetworkError,
+            httpx.HTTPStatusError,
+            httpx.ProxyError,
+            httpx.UnsupportedProtocol,
+            httpx.StreamError,
+        ),
+    )
     async def fetch_user_post(
         self,
         user_url: str,
@@ -85,12 +99,12 @@ class TiktokCrawler:
         """
         if not self._client_details:
             self._client_details = await self.tt_client.get_client_details(user_url)
+            # self._client_details["secUid"] = await self.get_secUid(user_url)
 
         self.client.headers["Accept"] = "*/*"
         self.client.headers["Accept-Encoding"] = "*/*"
         self.client.headers["Cookie"] = self.cookies
-        self.client.headers["Referer"] = Domain.TIKTOK.EXPLORE
-        self.client.headers["Connection"] = "keep-alive"
+        self.client.headers["Referer"] = Domain.TIKTOK.TIKTOK_DOMAIN
         self.client.headers["Sec-Fetch-Site"] = "same-origin"
 
         item_list_param = self.tt_param.get_video_list(
@@ -117,6 +131,7 @@ class TiktokCrawler:
         async with self.client.semaphore:
             response = await self.client.aclient.get(
                 url=f"{Domain.TIKTOK.USER_POST}?{param_string}",
+                headers=self.client.headers,
                 timeout=5,
                 follow_redirects=True,
             )
