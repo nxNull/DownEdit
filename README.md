@@ -85,7 +85,7 @@ Enter Music: music_name.mp3
 </details>
 
 
-- **`Download douyin videos`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/douyin.md)
+- **`Douyin`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/douyin.md)
 
 <details>
 <summary>Tutorial</summary>
@@ -97,7 +97,7 @@ Enter User Link: https://www.douyin.com/user/MS4wLjABAAAAzknqQznbR4gNJFBtYQE8ptA
 
 </details>
 
-- **`Download tiktok videos`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/tiktok.md)
+- **`Tiktok`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/tiktok.md)
 
 <details>
 <summary>Tutorial</summary>
@@ -109,42 +109,22 @@ Enter User: https://www.tiktok.com/@tiktok
 
 </details>
 
-- **`Download kuaishou videos`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/kuaishou.md)
+- **`Kuaishou`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/kuaishou.md)
 
 <details>
-<summary>Tutorial</summary>
 
------
-
- Step 1. Right click and select on Inspect element.
-  
-<img src="https://user-images.githubusercontent.com/44894784/200830971-90ee9df9-4b7d-4648-a6a0-0ac327dd9ac7.jpg" alt="tutorial"  width="640"/>
-
------
-  
-```html
-Input Cookie: kpf=PC_WEB; kpn=KUAISHOU_VISION; clientid=3; did=web_dfe556cf2a809f194bf54a1d5125ad31; didv=1667716807591; _bl_uid=2bl0haaF5Fnfjd5Ft0tXkm0ksz17; client_key=65890b29; userId=3114192403; ktrace-context=1|MS43NjQ1ODM2OTgyODY2OTgyLjI2NzI4OTgxLjE2NjgwOTQzMTUzNzQuMjM3MDQw|MS43NjQ1ODM2OTgyODY2OTgyLjM5ODM1Mzg4LjE2NjgwOTQzMTUzNzQuMjM3MDQx|0|graphql-server|webservice|false|NA; kuaishou.server.web_st=ChZrdWFpc2hvdS5zZXJ2ZXIud2ViLnN0EqAB8CBZs_S_PC_PFDJL2Do4j19XodeBMi9XmTD_kxJalX8oHZtLxNadJ2HpJKDvkuyRCU52pxMA7ulFKo32pyr3PO4phQTmcghw3M1pjL6gCVW5KyVSo-nJMvTcXhpDn501B6Yz0-XbxYHTdWZw7ITl-lgpWwO_hYalq68Wt5Q7ut7iEPGAVjIXH-r-y5DteaqG1ocz5k0PH3QMaqQSytJN5xoS-1Rj5-IBBNoxoIePYcxZFs4oIiBVPhNOHXk5SvSU1kq6lB8hpXv9CiiIqe6gJihLWZAsVCgFMAE; kuaishou.server.web_ph=8b579bf7ba4c2f740ca6486d022008b01ed1
-```
-  
-Step 2. Copy your Cookie browser.
-  
-<img src="https://user-images.githubusercontent.com/44894784/201191235-1abda841-7ae1-4bef-a06a-b7c06d12c927.jpg" alt="tutorial"  width="640"/>
-
------  
-  
-```html
-Enter User ID: 3xnpgvvuei3umwk
-```
-  
-Step 3. Copy user ID you want to download.  
-
-<img src="https://user-images.githubusercontent.com/44894784/200831086-9e880d15-6921-4593-a46a-c9462e58cd5e.jpg" alt="tutorial"  width="640"/>
-  
------  
-  
-Tips: If you still getting error, try changing your Browser, use Incognito/Private mode and reset your Internet/IP.
+<img src="https://github.com/user-attachments/assets/dd14fd6f-eb1d-4d87-82a0-a822823b6013" alt="kuaishou"/>
 
 </details>
+
+- **`Youtube`**
+<details>
+
+<img src="https://github.com/user-attachments/assets/a63d520f-2f68-40e7-9c22-61d8685dab55" alt="youtube"/>
+  
+</details>
+
+
 
 - **`Edit Photo`** - Simply copy and paste (right click) whatever directory location you would like to process.
 
