@@ -68,7 +68,8 @@ class Downloader:
             "GET",
             url,
             headers=range_headers,
-            follow_redirects=True
+            follow_redirects=True,
+            timeout=20
         ) as response:
             response.raise_for_status()
             async with aiofiles.open(output_file, mode="r+b") as file:
