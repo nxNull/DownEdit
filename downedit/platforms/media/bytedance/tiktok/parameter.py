@@ -76,6 +76,6 @@ class TikTokParam:
             "verifyFp": VerifyFp.get_verify_fp(timestamp),
             "webcast_language": "en",
             "msToken": "",
-            "X-Bogus": "",
-            "X-Gnarly": ""
+            # "X-Bogus": "",
+            # "X-Gnarly": ""
         }

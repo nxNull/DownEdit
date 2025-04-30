@@ -12,6 +12,7 @@ from rich.progress import (
     TransferSpeedColumn,
     ProgressColumn,
     SpinnerColumn,
+    TimeElapsedColumn
 )
 
 from .singleton import Singleton
@@ -146,6 +147,16 @@ class Column:
         self.columns["time_remaining"] = TimeRemainingColumn()
         return self.columns.copy()
 
+    def wait(self):
+        """
+        Columns configured for wait display.
+        """
+        self.columns.pop("percentage")
+        self.columns.pop("divider")
+        self.columns["divider"] = "•"
+        self.columns["time_elapsed"] = TimeElapsedColumn()
+        return self.columns.copy()
+
 
 class Progress:
     """
@@ -165,14 +176,14 @@ class Progress:
         if spinner_column:
             self.columns = {"spinner": spinner_column, **self.columns}
         if isinstance(self.progress_bar, BarColumn):
-            self.progress_bar.bar_width = bar_size or 50
+            self.progress_bar.bar_width = bar_size or 55
 
         self.progress_display = RichProgress(
             *self.columns.values(),
             transient=False,
             redirect_stdout=True,
             redirect_stderr=True,
-            expand=full_width
+            expand=full_width,
         )
         self.progress_lock = Lock()
         self.running_tasks = set()

@@ -48,6 +48,13 @@ class Client:
                 timeout=self.timeout_config,
                 limits=self.limits,
                 # http2=True,
+                mounts={
+                    "http://": httpx.AsyncHTTPTransport(proxy=None),
+                    "https://": httpx.AsyncHTTPTransport(proxy=None),
+                },
+                transport=httpx.AsyncHTTPTransport(
+                    retries=self.max_retries,
+                ),
             )
         return self._aclient
 
@@ -66,6 +73,13 @@ class Client:
                 verify=self.ssl,
                 timeout=self.timeout_config,
                 limits=self.limits,
+                mounts={
+                    "http://": httpx.HTTPTransport(proxy=None),
+                    "https://": httpx.HTTPTransport(proxy=None),
+                },
+                transport=httpx.HTTPTransport(
+                    retries=self.max_retries,
+                ),
             )
         return self._client
 
