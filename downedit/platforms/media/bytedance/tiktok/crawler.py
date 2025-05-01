@@ -37,9 +37,9 @@ class TiktokCrawler:
         self.client_hints = ClientHints(self.user_agent)
         self.headers = Headers(self.user_agent, self.client_hints)
         self.headers.accept_ch("""
-            sec-ch-ua,
-            sec-ch-ua-platform,
-            sec-ch-ua-mobile,
+            Sec-Ch-Ca,
+            Sec-Ch-Ua-Platform,
+            Sec-Ch-Ua-Mobile,
         """)
         self.default_client = Client(headers=self.headers.get())
         self.client: Client = kwargs.get("client", self.default_client)
@@ -62,7 +62,7 @@ class TiktokCrawler:
 
         self.client.headers["Accept"] = "*/*"
         self.client.headers["Accept-Encoding"] = "*/*"
-        self.client.headers["Connection"] = "gzip, deflate"
+        # self.client.headers["Connection"] = "gzip, deflate"
 
         async with self.client.semaphore:
             response = await self.client.aclient.get(url)

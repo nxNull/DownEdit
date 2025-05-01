@@ -72,7 +72,7 @@ class TikTokParam:
             "screen_width": cls.__browser_into.get("width"),
             "secUid": sec_uid,
             "tz_name": "Asia/Bangkok",
-            "user_is_login": "False",
+            "user_is_login": "true",
             "verifyFp": VerifyFp.get_verify_fp(timestamp),
             "webcast_language": "en",
             "msToken": "",

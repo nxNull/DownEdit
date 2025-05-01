@@ -31,7 +31,7 @@ class Headers():
         References:
             https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints#low_entropy_hints
         """
-        self._headers = {'user-agent': str(self.user_agent)}
+        self._headers = {'User-Agent': str(self.user_agent)}
 
         if self.user_agent.browser_type in ('chrome', 'edge') :
             self._add_standard_hints()
@@ -42,7 +42,7 @@ class Headers():
         """
         Adds the standard Client Hints to the headers.
         """
-        standard_hints = ['sec-ch-ua', 'sec-ch-ua-mobile', 'sec-ch-ua-platform']
+        standard_hints = ['Sec-Ch-Ua', 'Sec-Ch-Ua-Mobile', 'Sec-Ch-Ua-Platform']
         for hint in standard_hints:
             self._add_hint(hint)
 
@@ -54,15 +54,15 @@ class Headers():
             key (str): The hint name.
         """
         hint_map = {
-            'sec-ch-ua'                  : 'brands',
-            'sec-ch-ua-full-version-list': 'brands_full_version_list',
-            'sec-ch-ua-platform'         : 'platform',
-            'sec-ch-ua-platform-version' : 'platform_version',
-            'sec-ch-ua-mobile'           : 'mobile',
-            'sec-ch-ua-bitness'          : 'bitness',
-            'sec-ch-ua-arch'             : 'architecture',
-            'sec-ch-ua-model'            : 'model',
-            'sec-ch-ua-wow64'            : 'wow64'
+            'Sec-Ch-Ua'                  : 'brands',
+            'Sec-Ch-Ua-Full-Version-List': 'brands_full_version_list',
+            'Sec-Ch-Ua-Platform'         : 'platform',
+            'Sec-Ch-Ua-Platform-Version' : 'platform_version',
+            'Sec-Ch-Ua-Mobile'           : 'mobile',
+            'Sec-Ch-Ua-Bitness'          : 'bitness',
+            'Sec-Ch-Ua-Arch'             : 'architecture',
+            'Sec-Ch-Ua-Model'            : 'model',
+            'Sec-Ch-Ua-Wow64'            : 'wow64'
         }
         if key in hint_map:
             self._headers[key] = getattr(self.client_hints, hint_map[key])

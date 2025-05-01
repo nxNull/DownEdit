@@ -55,15 +55,15 @@ class YouTubeCrawler:
         self.client_hints = ClientHints(self.user_agent)
         self.headers = Headers(self.user_agent, self.client_hints)
         self.headers.accept_ch("""
-            sec-ch-ua,
-            sec-ch-ua-full-version-list,
-            sec-ch-ua-platform,
-            sec-ch-ua-platform-version,
-            sec-ch-ua-mobile,
-            sec-ch-ua-bitness,
-            sec-ch-ua-arch,
-            sec-ch-ua-model,
-            sec-ch-ua-wow64
+            Sec-Ch-Ua,
+            Sec-Ch-Ua-Platform,
+            Sec-Ch-Ua-Platform-Version,
+            Sec-Ch-Ua-Mobile,
+            Sec-Ch-Ua-Full-Version-List,
+            Sec-Ch-Ua-Bitness,
+            Sec-Ch-Ua-Arch,
+            Sec-Ch-Ua-Model,
+            Sec-Ch-Ua-Wow64
         """)
         self.default_client = Client(headers=self.headers.get())
         self.client = client or self.default_client

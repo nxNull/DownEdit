@@ -59,9 +59,9 @@ class DuckDuckGo(Provider):
         self.client_hints = ClientHints(self.user_agent)
         self.headers = Headers(self.user_agent, self.client_hints)
         self.headers.accept_ch("""
-            sec-ch-ua,
-            sec-ch-ua-mobile,
-            sec-ch-ua-platform,
+            Sec-Ch-Ca,
+            Sec-Ch-Ua-Platform,
+            Sec-Ch-Ua-Mobile,
         """)
         self.headers.update({
             "Host": "duckduckgo.com",
