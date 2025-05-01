@@ -154,6 +154,9 @@ class Tiktok:
                 new_state="starting",
                 force_refresh=True
             )
+            await self.tiktok_crawler.fetch_user_detail(
+                user_url=username
+            )
 
             cursor, count, has_more = 0, 35, True
 

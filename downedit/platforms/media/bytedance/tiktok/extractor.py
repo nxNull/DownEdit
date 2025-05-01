@@ -10,14 +10,8 @@ __all__ = [
 
 
 def extract_username(url: str) -> str:
-    pattern = r"https://www\.tiktok\.com/@([a-zA-Z0-9._]+)"
-
-    match = re.search(pattern, url)
-
-    if match:
-        return match.group(1)
-    else:
-        raise ValueError("Username not found in the URL")
+    match = re.search(r'tiktok\.com/@([^/?]+)', url)
+    return match.group(1) if match else None
 
 
 def extract_secuid(string: str) -> str:
