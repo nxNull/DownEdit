@@ -100,12 +100,8 @@ Enter User Link: https://www.douyin.com/user/MS4wLjABAAAAzknqQznbR4gNJFBtYQE8ptA
 - **`Tiktok`** - Download all videos from a user by simply entering their profile link. [View Documentation](https://github.com/nxNull/DownEdit/blob/main/docs/tiktok.md)
 
 <details>
-<summary>Tutorial</summary>
 
-```html
-Enter User: https://www.tiktok.com/@tiktok
-```
-<img src="https://user-images.githubusercontent.com/44894784/200826983-a45fc5d0-343a-4921-9077-6f97ebca67a8.gif" alt="animated"  width="640"/>
+<img src="https://github.com/user-attachments/assets/69b6d459-22cc-42a2-9328-b2b9701f4409" alt="animated"/>
 
 </details>
 
