@@ -112,7 +112,7 @@ _BANNERS: dict[
                                             Created by nxNull - v{DE_VERSION}
                 """,
         "message":"Select Models to generate images"
-    }, 
+    },
     "AI_SOUND_GENERATOR": {
         "display": f"""{Fore.MAGENTA} 
                 ░█████╗░██╗  ░██████╗░█████╗░██╗░░░██╗███╗░░██╗██████╗░  ░██████╗░███████╗███╗░░██╗
@@ -147,7 +147,7 @@ _BANNERS: dict[
                 ░░░╚═╝░░░╚═╝╚═╝░░╚═╝░░░╚═╝░░░░╚════╝░╚═╝░░╚═╝░░░░░░╚═════╝░╚══════╝
                                 Created by nxNull - v{DE_VERSION}
                 """,
-            "message": "Use arrow key to select the options"
+            "message": "Tutorial: https://github.com/nxNull/DownEdit/blob/main/docs/tiktok.md"
     },
     "DOUYIN_DL": {
         "display": f"""{Fore.MAGENTA}
@@ -159,7 +159,7 @@ _BANNERS: dict[
                 ╚═════╝░░╚════╝░░╚═════╝░░░░╚═╝░░░╚═╝╚═╝░░╚══╝░░░░░░╚═════╝░╚══════╝
                                 Created by nxNull - v{DE_VERSION}
                 """,
-        "message": """Ex1: https://v.douyin.com/jqwLHjF/ \nEx2: https://www.douyin.com/user/MS4wLjABAAAARz7MJzxuIgUFeEBer0sy7mMIvZzac"""
+        "message":"Tutorial: https://github.com/nxNull/DownEdit/blob/main/docs/douyin.md"
     },
     "KUAISHOU_DL": {
         "display": f"""{Fore.MAGENTA} 
@@ -171,7 +171,7 @@ _BANNERS: dict[
                 ╚═╝░░╚═╝░╚═════╝░╚═╝░░╚═╝╚═╝╚═════╝░╚═╝░░╚═╝░╚════╝░░╚═════╝░░░░░░░╚═════╝░╚══════╝
                                             Created by nxNull - v{DE_VERSION}
                 """,
-        "message": """Example:\nUser ID: 3xnpgvvuei3umwk\nProfile Url: https://www.kuaishou.com/profile/3xeqp66ummi8872"""
+        "message": "Tutorial: https://github.com/nxNull/DownEdit/blob/main/docs/kuaishou.md"
     },
     "YOUTUBE_DL": {
         "display": f"""{Fore.MAGENTA}
