@@ -4,7 +4,6 @@ import json
 import random
 
 from downedit.agents.prompts import SYSTEM_PROMPTS
-from downedit.agents.providers._config import AIConfig
 from downedit.agents.providers._converter import DuckDuckGoConverter
 from downedit.agents.providers._providers import Provider
 from downedit.service import (
@@ -45,7 +44,7 @@ class DuckDuckGo(Provider):
         - base_url: The base URL for the provider.
         - api_key: The API key to use for authentication.
         - chat: The chat client to use for prompts.
-        """  
+        """
         chat.add_input(
             role=Role.user,
             message=SYSTEM_PROMPTS.model_dump_json()
@@ -77,7 +76,6 @@ class DuckDuckGo(Provider):
         })
         self.default_client = Client(headers=self.headers.get())
         self.client = service or self.default_client
-        self.__config = AIConfig.all_provider_configs()
         self._x_vqd_4 = None
         self._vqd_hash_1 = None
         self._x_fe_version = None
@@ -98,7 +96,7 @@ class DuckDuckGo(Provider):
         """
         try:
             response = self.service.client.get(
-                url=self.__config["duckai"]["country_url"]
+                url="https://duckduckgo.com/country.json"
             )
             response.raise_for_status()
 
@@ -118,7 +116,7 @@ class DuckDuckGo(Provider):
             })
 
             response = self.service.client.get(
-                url=self.__config["duckai"]["status_url"],
+                url="https://duckduckgo.com/duckchat/v1/status",
                 headers=self.headers.get()
             )
             response.raise_for_status()
@@ -255,7 +253,7 @@ class DuckDuckGo(Provider):
 
         with self.service.client.stream(
             "POST",
-            url=self.__config["duckai"]["base_url"],
+            url="https://duckduckgo.com/duckchat/v1/chat",
             json=transformed_messages,
             headers=self.headers.get()
         ) as response:

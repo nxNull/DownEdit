@@ -26,8 +26,6 @@ from downedit.agents.providers import (
     Role,
     Message,
     Chat,
-
-    AIConfig,
 )
 
 
@@ -44,6 +42,5 @@ __all__ = [
     "CLOUD_FACTORY",
     "LOCAL_FACTORY",
 
-    "AIConfig",
     "SYSTEM_PROMPTS",
 ]

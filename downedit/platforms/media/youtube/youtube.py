@@ -3,7 +3,10 @@ import traceback
 
 from downedit.platforms.media.youtube._dl import YoutubeDL
 from downedit.platforms.media.youtube.crawler import YouTubeCrawler
-from downedit.platforms.media.youtube.extractor import extract_channel_handle
+from downedit.platforms.media.youtube.extractor import (
+    extract_channel_handle,
+    extract_channel_url
+)
 from downedit.utils import (
     console,
     column,
@@ -59,7 +62,9 @@ class Youtube:
         """
         video_id = item.get('videoId', "")
 
-        video_title = item.get('title', {}).get("runs", [])[0].get("text", "")
+        video_title = item.get('title', {})
+        if video_title:
+            video_title = video_title.get("runs", [])[0].get("text", "")
         if not video_title:
             video_title = f"video_{video_id}"
 
@@ -107,7 +112,7 @@ class Youtube:
             )
 
             async for video in self.youtube_crawler.aget_channel(
-                channel_url=channel_url,
+                channel_url=extract_channel_url(channel_url),
                 content_type=video_type
             ):
                 if self.observer.is_termination_signaled():

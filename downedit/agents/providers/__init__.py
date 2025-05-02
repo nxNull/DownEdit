@@ -1,9 +1,8 @@
-from ._config       import AIConfig
 from ._providers    import (
                         Provider,
                         CLOUD_FACTORY,
                         LOCAL_FACTORY
-                    ) 
+                    )
 from ._model        import (
                         Role,
                         Message,
@@ -11,10 +10,6 @@ from ._model        import (
                     )
 from .cloud         import (
                         DuckDuckGo,
-                        DeepSeek,
-                        Google,
-                        OpenAI,
-                        xAI,
                     )
 
 __all__ = [
@@ -25,7 +20,5 @@ __all__ = [
     "Role",
     "Message",
     "Chat",
-
-    "AIConfig",
 ]
 

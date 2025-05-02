@@ -13,7 +13,7 @@ class SIMA:
 
     def __init__(self) -> None:
         self._ai_factory = AIFactory()
-    
+
     def create_agent(
         self,
         agent_type: str,
