@@ -116,27 +116,35 @@ Enter User Link: https://www.douyin.com/user/MS4wLjABAAAAzknqQznbR4gNJFBtYQE8ptA
 <details>
 
 <img src="https://github.com/user-attachments/assets/a63d520f-2f68-40e7-9c22-61d8685dab55" alt="youtube"/>
-  
-</details>
 
+</details>
 
 
 - **`Edit Photo`** - Simply copy and paste (right click) whatever directory location you would like to process.
 
 <details>
 <summary>Tutorial</summary>
-  
+
   - `Remove Background AI`
 <img src="https://github.com/sokunheng/DownEdit/assets/44894784/2f351ebc-1dc2-4d97-b26f-2218426a7969.png" alt="down_edit_photo" width="537" />
-  
+
 </details>
+
 
 ## 🔎 Requirements
 - Python
 > [!NOTE]
 > Version must be between 3.8 and 3.12.
 
-## ⚙ Installation 
+
+## ⚙ Installation
+
+**For Regular Use:**
+
+You can also download the application and use it on your PC without installing python.
+- **Windows:** [Download](https://github.com/SokunHeng/DownEdit/releases)
+- **macOS:** [Not Available](https://github.com/SokunHeng/DownEdit/releases)
+
 
 #### Step 1. Download and install [python](https://www.python.org/downloads/) on your pc.
 ```sh
@@ -166,25 +174,17 @@ python main.py
 ```
 -----
 
-**For Regular Use:**
-
-You can also download the application and use it on your PC without installing python.
-- **Windows:** [Download](https://github.com/SokunHeng/DownEdit/releases)
-- **macOS:** [None](https://github.com/SokunHeng/DownEdit/releases)
-
 > [!TIP]
 > **Fix Terminal Font Issues**
 > 
 > Install the Microsoft [Cascadia](https://github.com/microsoft/cascadia-code) font on your computer if your terminal does not support the font, which is resulting in program error.
 
-## 🔨 Module
-  The following dependencies are required for the project:
 
-  <details>
-<summary>List</summary>
-    
+## 🧩 Module
+
+<details>
+
 - [Pystyle](https://github.com/billythegoat356/pystyle)
-- [Requests](https://requests.readthedocs.io/en/latest/)
 - [Inquirer](https://pypi.org/project/inquirer/)
 - [Colorama](https://github.com/tartley/colorama)
 - [Moviepy](https://github.com/Zulko/moviepy)
@@ -195,14 +195,13 @@ You can also download the application and use it on your PC without installing p
 - [Psutil](https://github.com/giampaolo/psutil)
 - [Httpx](https://github.com/encode/httpx)
 - [Aiofiles](https://github.com/Tinche/aiofiles)
-
+- [Scrapetube](https://github.com/dermasmid/scrapetube)
+- [f2](https://github.com/Johnserf-Seed/f2)
+- [ONNX Runtime](https://github.com/microsoft/onnxruntime)
+- [Patchright](https://pypi.org/project/patchright/)
+- [Pydantic](https://github.com/pydantic/pydantic)
+- 
 </details>
-
-## Author
-
-👤 **Sokun Heng**
-
-- Github: [@SokunHeng](https://github.com/SokunHeng)
 
 
 ## Show your support
@@ -210,10 +209,18 @@ You can also download the application and use it on your PC without installing p
 Please ⭐️ this repository if this project helped you!
 
 
-## 📚 Reference
+## 📚 More
 
-[Documentation](https://github.com/sokunheng/DownEdit/tree/main/docs#readme)
+For detailed usage instructions and tutorials, visit the [Documentation](https://github.com/nxNull/DownEdit/tree/main/docs#readme)
+
+
+## Author
+
+- Github: 👤 [@nxNull](https://github.com/nxNull)
 
 
 ## 📝 License
-Copyright © 2022 [SokunHeng](https://github.com/SokunHeng).<br />
+This project is licensed under the [GPL-3.0](https://github.com/nxNull/DownEdit?tab=GPL-3.0-1-ov-file) License.
+
+Copyright © 2022 [nxNull](https://github.com/nxNull).<br />
+
