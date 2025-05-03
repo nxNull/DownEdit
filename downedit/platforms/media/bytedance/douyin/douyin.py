@@ -88,7 +88,7 @@ class Douyin:
         Returns:
             Tuple[str or None, str]: The video URL (if available) and video title.
         """
-        video_bitrates = item.get("bit_rate", [])
+        video_bitrates = item.get('video', [])
 
         if not video_bitrates:
             return None, "no video"
@@ -96,7 +96,13 @@ class Douyin:
         play_addr = video_bitrates.get("play_addr", {})
         url_list = play_addr.get("url_list", [])
 
-        video_desc = item.get("desc").encode('latin1').decode('utf-8')
+        video_desc = item.get("caption") or item.get("desc") or ""
+
+        if isinstance(video_desc, bytes):
+            video_desc = video_desc.decode("utf‑8", errors="replace")
+
+        video_desc = video_desc.rstrip()
+
         datetime_object = datetime.fromtimestamp(item.get("create_time", 0))
         upload_date = datetime_object.strftime("%Y-%m-%d")
         video_title = f"{upload_date} - {video_desc}"

@@ -1,3 +1,4 @@
+import httpx
 from urllib.parse import quote, urlencode
 
 from downedit.platforms.domain import Domain
@@ -38,6 +39,19 @@ class DouyinCrawler:
         self.dy_client = DouyinClient(client=self.client)
         self.dy_param = DouyinParam()
 
+    @httpx_capture_async
+    @retry_async(
+        num_retries=3,
+        delay=1,
+        exceptions=(
+            httpx.TimeoutException,
+            httpx.NetworkError,
+            httpx.HTTPStatusError,
+            httpx.ProxyError,
+            httpx.UnsupportedProtocol,
+            httpx.StreamError,
+        ),
+    )
     async def fetch_user_post(
         self,
         sec_uid: str,
@@ -55,14 +69,13 @@ class DouyinCrawler:
         Returns:
             dict: A dictionary containing the user's posts.
         """
-        self.client.headers["Accept"] = "application/json, text/plain, */*"
+        self.client.headers["Accept"] = "*/*"
         self.client.headers["Accept-Encoding"] = "*/*"
         self.client.headers["Cookie"] = self.cookies
-        self.client.headers["priority"] = "u=1, i"
         self.client.headers["Referer"] = f"{Domain.DOUYIN.DOUYIN_DOMAIN}/user/{sec_uid}"
         self.client.headers["Connection"] = "keep-alive"
         self.client.headers["Sec-Fetch-Site"] = "same-origin"
-        self.client.headers["uifid"] = extract_uifid(self.cookies)
+        self.client.headers["Uifid"] = extract_uifid(self.cookies)
 
         item_list_param = self.dy_param.get_video_list(
             sec_uid=sec_uid,
