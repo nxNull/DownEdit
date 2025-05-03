@@ -145,7 +145,7 @@ You can also download the application and use it on your PC without installing p
 - **Windows:** [Download](https://github.com/SokunHeng/DownEdit/releases)
 - **macOS:** [Not Available](https://github.com/SokunHeng/DownEdit/releases)
 
-
+**For Development:**
 #### Step 1. Download and install [python](https://www.python.org/downloads/) on your pc.
 ```sh
 https://www.python.org/downloads/
