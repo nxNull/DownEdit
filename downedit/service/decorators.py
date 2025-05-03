@@ -25,16 +25,15 @@ async def retry_async(
         delay (int, optional): Delay between retries in seconds. Defaults to 1.
         exceptions (tuple, optional): Exceptions to catch. Defaults to (Exception,).
     """
+    last_err: Exception | None = None
     for attempt in range(num_retries):
         try:
-            result = await func(*args, **kwargs)
-            if result is not None:
-                return result
-        except exceptions as e:
-            # log.error(traceback.format_exc())
+            return await func(*args, **kwargs)
+        except exceptions as err:
+            last_err = err
             if attempt < num_retries - 1:
                 await asyncio.sleep(delay)
-    return None
+    raise last_err
 
 
 @decorator
