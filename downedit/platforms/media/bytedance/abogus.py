@@ -459,7 +459,7 @@ class DouyinAbogus:
                     break
                 if j == 0 and i + 2 >= len(s):
                     break
-                r.append(cls.__str[e][(n & k) >> j])
+                r.append(cls.BASE_KEY[e][(n & k) >> j])
 
         r.append("=" * ((4 - len(r) % 4) % 4))
         return "".join(r)
