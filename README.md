@@ -200,7 +200,7 @@ python main.py
 - [ONNX Runtime](https://github.com/microsoft/onnxruntime)
 - [Patchright](https://pypi.org/project/patchright/)
 - [Pydantic](https://github.com/pydantic/pydantic)
-- 
+
 </details>
 
 
