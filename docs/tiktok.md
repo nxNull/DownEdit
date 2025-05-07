@@ -25,10 +25,11 @@ You need your browser cookies for `tiktok.com` to authenticate.
 
 *   **See the picture below:**
 
-![tiktok_cookie](https://github.com/user-attachments/assets/c7d7ba46-a0fa-46c3-806a-1ddc9e82b8cb)
-
+![tiktok_cookie](https://github.com/user-attachments/assets/176bb06c-c2b8-4397-b24a-fbd93c8371f2)
 
 **Then:** Paste the copied cookie string into the tool's input field.
+
+`Note:  If the copied cookie doesn’t work, try obtaining it from a different API.`
 
 **Example:**
 ```text
