@@ -31,9 +31,9 @@ class Tiktok:
         self.client_hints = ClientHints(self.user_agent)
         self.headers = Headers(self.user_agent, self.client_hints)
         self.headers.accept_ch("""
-            sec-ch-ua,
-            sec-ch-ua-platform,
-            sec-ch-ua-mobile,
+            Sec-Ch-Ca,
+            Sec-Ch-Ua-Platform,
+            Sec-Ch-Ua-Mobile,
         """)
         self.default_client = Client(headers=self.headers.get())
         self.cookies = kwargs.get("cookies", "")
